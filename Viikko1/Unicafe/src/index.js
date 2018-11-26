@@ -42,7 +42,7 @@ class App extends React.Component {
                     huono = {this.state.huono}
                     keskiarvo = {this.state.hyvä + (this.state.huono * -1) } 
                     positiivisia = {(this.state.hyvä)/(this.state.hyvä+this.state.neutraali+this.state.huono)*100} 
-                />                
+                />   
             </div>
         </div>
       )
@@ -58,6 +58,15 @@ class App extends React.Component {
   }
 
   const Statistics = (props) => {
+
+    if (props.hyvä === 0 && props.neutraali === 0 && props.huono === 0) {
+        return (
+        <div> 
+            <h1>statistiikka</h1>               
+            <p>ei yhtään palautetta annettu</p>
+        </div>
+        )
+    } else {
       return (
         <div>
             <h1>statistiikka</h1>
@@ -68,6 +77,7 @@ class App extends React.Component {
             <p>positiivisia {props.positiivisia} %</p>         
         </div>          
       )
+    }  
   }
   
   ReactDOM.render(
