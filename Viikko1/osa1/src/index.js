@@ -8,15 +8,18 @@ const App = () => {
         osat : [ 
             {
                 nimi:'Reactin perusteet',
-                tehtavia: 10
+                tehtavia: 10,
+                id: 1
             },       
             {
                 nimi: 'Tiedonvälitys propseilla',
-                tehtavia : 7
+                tehtavia : 7,
+                id: 2
             },    
             {
                 nimi:'Komponenttien tila',
-                tehtavia: 14
+                tehtavia: 14,
+                id: 3
             }
         ]
     }
@@ -32,26 +35,21 @@ const App = () => {
 const Otsikko = (props) => {
     return (
         <div>
-            <p>{props.kurssi}</p>
+            {props.kurssi}
         </div>
     )
 }
 
-const Sisalto = (props) => {
+const Sisalto = ({osat}) => {
     return (
-        <div>
-             <p>{props.osat[0].nimi} {props.osat[0].tehtavia}</p>
-             <p>{props.osat[1].nimi} {props.osat[1].tehtavia}</p>
-             <p>{props.osat[2].nimi} {props.osat[2].tehtavia}</p>
-        </div>
+   
+        <ul>{osat.map(osa=><Osa key={osa.id} osa={osa}/>)}</ul>
     )
 }
 
-const Osa = (props) => {
+const Osa = ({osa}) => {
     return (
-        <div>
-          <p>{props.osat[0].nimi} {props.osat[0].tehtavia}</p> 
-        </div>
+        <li>{osa.nimi} {osa.tehtavia}</li>
     )
 }
 
@@ -61,10 +59,6 @@ const Yhteensa = (props) => {
           <p>tehtäviä {props.osat[0].tehtavia+props.osat[1].tehtavia+props.osat[2].tehtavia} yhteensä </p> 
         </div>
     )
-}
-
-const yht = osat => {
-  return osat[0] +  osat[1] + osat[2]
 }
 
 ReactDOM.render(<App />, document.getElementById('root'))
