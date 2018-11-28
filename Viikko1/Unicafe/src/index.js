@@ -39,7 +39,7 @@ class App extends React.Component {
                     neutraali = {this.state.neutraali}
                     huono = {this.state.huono}
                     keskiarvo = {this.state.hyvä + (this.state.huono * -1) } 
-                    positiivisia = {(this.state.hyvä)/(this.state.hyvä+this.state.neutraali+this.state.huono)*100} 
+                    positiivisia = {Math.round((this.state.hyvä)/(this.state.hyvä+this.state.neutraali+this.state.huono)*100)} 
                 />   
             </div>
         </div>
@@ -60,20 +60,32 @@ class App extends React.Component {
     if (props.hyvä === 0 && props.neutraali === 0 && props.huono === 0) {
         return (
         <div> 
-            <h1>statistiikka</h1>               
+             <h1>statistiikka</h1>              
             <p>ei yhtään palautetta annettu</p>
         </div>
         )
     } else {
       return (
-        <div>
-            <h1>statistiikka</h1>
-            <p>hyvä {props.hyvä}</p>
-            <p>neutraali {props.neutraali}</p>
-            <p>huono {props.huono}</p>
-            <p>keskiarvo {props.keskiarvo}</p>
-            <p>positiivisia {props.positiivisia} %</p>         
-        </div>          
+            <table>
+                <tbody>  
+                    <tr><th>statistiikka</th></tr>  
+                    <tr>
+                        <td>hyvä</td><td>{props.hyvä}</td>
+                    </tr>
+                    <tr>
+                        <td>neutraali</td><td>{props.neutraali}</td>
+                    </tr>
+                    <tr>
+                        <td>huono</td><td>{props.huono}</td>
+                    </tr>
+                    <tr>
+                        <td>keskiarvo</td><td>{props.keskiarvo}</td>
+                    </tr>
+                    <tr>
+                        <td>positiivisia</td><td>{props.positiivisia} %</td>
+                    </tr>
+            </tbody> 
+            </table>  
       )
     }  
   }
