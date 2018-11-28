@@ -11,11 +11,9 @@ class App extends React.Component {
       }
     }
 
-    asetaHyvä = (arvo) => () => this.setState({ hyvä: arvo })
-
-    asetaNeutraali = (arvo) => () => this.setState({ neutraali: arvo })
-
-    asetaHuono = (arvo) => () => this.setState({ huono: arvo })
+    asetaPalaute  = (palaute, arvo) => () => {       
+            this.setState({[palaute]: arvo})
+    }
 
     render() {
       return (
@@ -23,15 +21,15 @@ class App extends React.Component {
             <h1>anna palautetta</h1>
             <div>    
                 <Button 
-                    handleClick ={this.asetaHyvä(this.state.hyvä + 1)}
+                    handleClick ={this.asetaPalaute('hyvä', this.state.hyvä +1)}
                     text="hyvä"
                 />
                 <Button 
-                    handleClick ={this.asetaNeutraali(this.state.neutraali + 1)}
+                    handleClick ={this.asetaPalaute('neutraali', this.state.neutraali +1)}
                     text="neutraali"
                 />
                 <Button 
-                    handleClick ={this.asetaHuono(this.state.huono + 1)}
+                    handleClick ={this.asetaPalaute('huono', this.state.huono +1)}
                     text="huono"
                 />                
             </div>
