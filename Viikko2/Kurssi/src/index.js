@@ -1,4 +1,3 @@
-
 import React from 'react'
 import ReactDOM from 'react-dom'
 
@@ -26,29 +25,48 @@ const App = () => {
     }
     return (
         <div>
-          <Otsikko kurssi={kurssi.nimi} />
-          <Sisalto osat={kurssi.osat}   />
-          <Yhteensa osat={kurssi.osat}  />
+          <Kurssi kurssi={kurssi} />
         </div>
     )
 }
 
-const Otsikko = (props) => {
+const Kurssi = ({kurssi}) => {
+
+    console.log('kurssin saama props', kurssi)
+    return (
+
+        <div>
+            <div>            
+            <Otsikko  otsikko ={kurssi} />     
+            </div>
+            <div>
+                <Sisalto sisalto ={kurssi.osat}/>       
+            </div>
+        </div>
+    )
+}
+
+const Otsikko = ({otsikko}) => {
+    console.log('otsikon saama props', otsikko)
     return (
         <div>
-            {props.kurssi}
+           <h1> {otsikko.nimi}</h1>
         </div>
     )
 }
 
-const Sisalto = ({osat}) => {
-    return (
-   
-        <ul>{osat.map(osa=><Osa key={osa.id} osa={osa}/>)}</ul>
+const Sisalto = (osat) => {
+    
+    console.log('sisällön saama props', osat)
+    return (  
+        <ul>
+        {osat.sisalto.map(osa=> <Osa key={osa.id} osa={osa}/>)}        
+        </ul>
     )
 }
 
 const Osa = ({osa}) => {
+    console.log('osan saama props', osa)
     return (
         <li>{osa.nimi} {osa.tehtavia}</li>
     )
