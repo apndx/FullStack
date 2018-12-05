@@ -12,21 +12,29 @@ class App extends React.Component {
   addPerson = (event) => {
     event.preventDefault()
     const personObject = {
+
       name: this.state.newName,
       id: this.state.persons.length + 1
     }
+    const personNames = this.state.persons.map(person=> person.name)
+   
+
+      if (!personNames.includes(this.state.newName)) {
+      const persons = this.state.persons.concat(personObject)
   
-    const persons = this.state.persons.concat(personObject)
-  
-    this.setState({
-      persons,
-      newName: ''
+      this.setState({
+        persons,
+        newName: ''
     })
+    } 
+  
   }
 
   handlePersonChange = (event) => {
-    console.log(event.target.value)
-    this.setState({ newName: event.target.value })
+  //  console.log("lisättäväksi ehdotetaan:", event.target.value)
+  //  console.log(this.state.persons)
+      this.setState({ newName: event.target.value })
+     
   }
 
   render() {
@@ -53,8 +61,8 @@ class App extends React.Component {
 
 const Person = ({ person}) => {
 
-  console.log(person)
-  console.log(person.name)
+  //console.log(person)
+  //console.log(person.name)
   return (
     <li> {person.name}</li>
   )
