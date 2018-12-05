@@ -3,30 +3,49 @@ import ReactDOM from 'react-dom'
 
 const App = () => {
 
-    const kurssi = {
-        nimi: 'Half Stack -sovelluskehitys',
-        osat : [ 
+    const kurssit =  [
+        {
+          nimi: 'Half Stack -sovelluskehitys',
+          id: 1,
+          osat: [
             {
-                nimi:'Reactin perusteet',
-                tehtavia: 10,
-                id: 1
-            },       
+              nimi: 'Reactin perusteet',
+              tehtavia: 10,
+              id: 1
+            },
             {
-                nimi: 'Tiedonvälitys propseilla',
-                tehtavia : 7,
-                id: 2
-            },    
+              nimi: 'Tiedonvälitys propseilla',
+              tehtavia: 7,
+              id: 2
+            },
             {
-                nimi:'Komponenttien tila',
-                tehtavia: 14,
-                id: 3
+              nimi: 'Komponenttien tila',
+              tehtavia: 14,
+              id: 3
             }
-        ]
-    }
+          ]
+        },
+        {
+          nimi: 'Node.js',
+          id: 2,
+          osat: [
+            {
+              nimi: 'Routing',
+              tehtavia: 3,
+              id: 1
+            },
+            {
+              nimi: 'Middlewaret',
+              tehtavia: 7,
+              id: 2
+            }
+          ]
+        }
+      ]
     return (
-        <div>
-          <Kurssi kurssi={kurssi} />
-        </div>
+        <ul>
+          {kurssit.map(kurssi => <Kurssi key ={kurssi.id}kurssi={kurssi} />)}
+        </ul>
     )
 }
 
@@ -35,7 +54,7 @@ const Kurssi = ({kurssi}) => {
     console.log('kurssin saama props', kurssi)
     return (
 
-        <div>
+        <li>
             <div>            
             <Otsikko  otsikko ={kurssi} />     
             </div>
@@ -45,7 +64,7 @@ const Kurssi = ({kurssi}) => {
             <div>
                 <Yhteensa yhteensa ={kurssi.osat}/>  
             </div>
-        </div>
+        </li>
     )
 }
 
