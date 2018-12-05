@@ -19,7 +19,6 @@ class App extends React.Component {
     }
     const personNames = this.state.persons.map(person=> person.name)
    
-
       if (!personNames.includes(this.state.newName)) {
       const persons = this.state.persons.concat(personObject)
   
@@ -33,18 +32,12 @@ class App extends React.Component {
   }
 
   handleName = (event) => {
-  //  console.log("lisättäväksi ehdotetaan:", event.target.value)
-  //  console.log(this.state.persons)
-      this.setState({ newName: event.target.value })
-     
+      this.setState({ newName: event.target.value })   
   }
 
   handlePhone = (event) => {
-    //  console.log("lisättäväksi ehdotetaan:", event.target.value)
-    //  console.log(this.state.persons)
-        this.setState({ newPhone: event.target.value })
-       
-    }
+        this.setState({ newPhone: event.target.value })      
+  }
 
   addPerson = (event) => {
     event.preventDefault()
@@ -54,70 +47,75 @@ class App extends React.Component {
       name: this.state.newName, 
       phone: this.state.newPhone
     }
+
     const personNames = this.state.persons.map(person=> person.name)
    
       if (!personNames.includes(this.state.newName)) {
       const persons = this.state.persons.concat(personObject)
-  
       this.setState({
         persons,
         newName: '',
         newPhone: ''
     })
-    } 
-    
+    }  
   }
-
 
   render() {
     return (
       <div>
         <h2>Puhelinluettelo</h2>
-        <form onSubmit={this.addPerson}>
-          <div>    
-            nimi: 
-          <input 
-            value = {this.state.newName}
-            onChange = {this.handleName}
-          />
-          </div>
-          <div>
-            numero: 
-          <input 
-            value = {this.state.newPhone}
-            onChange = {this.handlePhone}
-          />
-          </div>  
-          <div>
-           <button type="submit">lisää</button>
-         </div>
-        </form>  
-
+            <Lomake lomake = {this} />
         <h2>Numerot</h2>
-        <ul>
-          {this.state.persons.map(person => <p key = {person.id}><Name person ={person}/><Phone person={person}/></p>)}  
-        </ul>       
+            <Person tyyppi = {this.state.persons}/>      
       </div>
     )
   }
 }
 
+const Lomake = ({lomake}) => {
+  console.log('lomakkeen saama props', lomake)
+  return (
+    <form onSubmit={lomake.addPerson}>
+    <div>    
+      nimi: 
+    <input 
+      value = {lomake.state.newName}
+      onChange = {lomake.handleName}
+    />
+    </div>
+    <div>
+      numero: 
+    <input 
+      value = {lomake.state.newPhone}
+      onChange = {lomake.handlePhone}
+    />
+    </div>  
+    <div>
+     <button type="submit">lisää</button>
+   </div>
+  </form> 
+  )
+}
+
+const Person = (tyyppi) => {
+  console.log('personin saama props', tyyppi)
+  return (
+    <ul>
+    {tyyppi.tyyppi.map(person => <p key = {person.id}><Name person ={person}/><Phone person={person}/></p>)} 
+    </ul>
+  )
+}
 
 const Name = ({person}) => {
-
-  //console.log(person)
-  //console.log(person.name)
   return (
     <li> {person.name}</li>
   )
 }
 
 const Phone = ({ person}) => {
-
   return (
     <li>{person.phone}</li>
   )
 }
-
 
 export default App
