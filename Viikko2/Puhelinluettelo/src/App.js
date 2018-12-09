@@ -1,13 +1,15 @@
 import React from 'react';
+import axios from 'axios'
 
 class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      persons: props.persons,
+      persons: [],
       newName: '',
       newPhone: ''
     }
+    console.log('constructor')
   }
 
   addName = (event) => {
@@ -60,7 +62,18 @@ class App extends React.Component {
     }  
   }
 
+  componentDidMount() {
+    console.log('did mount')
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        console.log('promise fulfilled')
+        this.setState({ persons: response.data })
+      })
+  }
+
   render() {
+    console.log('render')
     return (
       <div>
         <h2>Puhelinluettelo</h2>
