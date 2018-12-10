@@ -1,14 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './App'
+import axios from 'axios'
 
-const persons = [
-  { 
-    id: 1,
-    name: 'Arto Hellas',
-    phone: '12345'
-  }
-]
+const promise = axios.get('http://localhost:3001/persons')
+console.log(promise)
 
 
-ReactDOM.render(<App persons = {persons} />, document.getElementById('root'))
+ReactDOM.render(<App />, document.getElementById('root'))
