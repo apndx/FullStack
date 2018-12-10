@@ -7,7 +7,7 @@ class App extends React.Component {
     this.state = {
       persons: [],
       newName: '',
-      newPhone: '' // täällä jotain
+      newPhone: '' 
     }
     console.log('constructor')
   }
@@ -20,10 +20,26 @@ class App extends React.Component {
         this.setState({ newPhone: event.target.value })      
   }
 
+  handleDelete = (id) => {
+    return () => {
+      console.log('person '+id+' needs to be deleted')
+
+      if (window.confirm("Poistetaanko nimi luettelosta?")) {
+        personService
+          .del(id)
+          .then(persons => {
+            this.setState({
+            persons: this.state.persons.filter(p => p.id !== id)
+          })
+          })
+      } 
+    }
+  }
+
   addPerson = (event) => {
     event.preventDefault()
     const personObject = {
-      
+
       name: this.state.newName, 
       phone: this.state.newPhone,
 
@@ -64,7 +80,7 @@ class App extends React.Component {
   }
 
   render() {
-    // keyn kanssa nyt jotain häipäkkää  
+    
     console.log('render')
     console.log(this.state.persons)
     return (
@@ -72,7 +88,7 @@ class App extends React.Component {
         <h2>Puhelinluettelo</h2>
             <Lomake lomake = {this} />
         <h2>Numerot</h2>          
-        <Person tyyppi = {this.state.persons}/>  
+        <Person tyyppi = {this} />  
       </div>
     )
   }
@@ -104,16 +120,24 @@ const Lomake = ({lomake}) => {
 }
 
 const Person = (props) => {
-  //console.log('personin saama props', tyyppi)
+  console.log('personin saama props', props)
   return (
     <ul>
-    {props.tyyppi.map(person => <li key = {person.id}><Name person ={person}/> – <Phone person={person}/></li>)} 
+    {props.tyyppi.state.persons.map(person => 
+      <li key = {person.id}>
+      <Name 
+      person ={person} 
+      del ={props.tyyppi.handleDelete(person.id)}/>
+      <Phone person={person}/></li>)} 
     </ul>
   )
 }
 
-const Name = ({person}) => {
-  return person.name
+const Name = ({person, del}) => {
+  const label = 'poista'
+  return (
+  <p><button onClick={del}>{label}</button> {person.name}  </p>
+  )
 }
 
 const Phone = ({person}) => {
