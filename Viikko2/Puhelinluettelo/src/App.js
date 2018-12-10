@@ -1,5 +1,6 @@
 import React from 'react';
 import personService from './services/persons'
+import Notification from './components/Notification'
 
 class App extends React.Component {
   constructor(props) {
@@ -7,7 +8,8 @@ class App extends React.Component {
     this.state = {
       persons: [],
       newName: '',
-      newPhone: '' 
+      newPhone: '',
+      success: null
     }
     console.log('constructor')
   }
@@ -21,6 +23,7 @@ class App extends React.Component {
   }
 
   handleDelete = (id) => {
+    const person = this.state.persons.find(n => n.id === id)
     return () => {
       console.log('person '+id+' needs to be deleted')
 
@@ -29,9 +32,13 @@ class App extends React.Component {
           .del(id)
           .then(persons => {
             this.setState({
-            persons: this.state.persons.filter(p => p.id !== id)
+            persons: this.state.persons.filter(p => p.id !== id),
+            success: `listalta on nyt poistettu ' ${person.name} ' `
           })
-          })
+          setTimeout(() => {
+            this.setState({ success: null })
+          }, 5000)
+        })
       } 
     }
   }
@@ -59,8 +66,12 @@ class App extends React.Component {
           this.setState({
             persons: this.state.persons.concat(response.data),
             newName: '',
-            newPhone: ''
+            newPhone: '',
+            success: `listalle on nyt lisätty ' ${personObject.name} ' `
           })
+          setTimeout(() => {
+            this.setState({ success: null })
+          }, 5000)
         })
       
         console.log('after post')
@@ -86,6 +97,7 @@ class App extends React.Component {
     return (
       <div>   
         <h2>Puhelinluettelo</h2>
+        <Notification message={this.state.success}/>  
             <Lomake lomake = {this} />
         <h2>Numerot</h2>          
         <Person tyyppi = {this} />  
