@@ -5,13 +5,23 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      selected: Math.floor(Math.random() * 6)
+      selected: Math.floor(Math.random() * 6),
+      pisteet: [0, 0, 0, 0, 0, 0]
     }
   }
 
   changeAnecdote = (arvo) => () => {       
     this.setState({selected: arvo})
-}
+  }
+
+  vote = (arvo) => () => {
+    console.log('äänestys saa arvon', arvo)
+    const kopio = [...this.state.pisteet]
+    kopio[arvo] += 1  
+    this.setState({pisteet: kopio})
+    console.log('ääniä nyt', kopio[arvo])
+    
+  }
 
   render() {
     return (
@@ -25,6 +35,16 @@ class App extends React.Component {
                 text="next"
             />      
         </div>
+       
+        <div>
+       
+            <Button 
+                handleClick ={this.vote(this.state.selected)}
+                text="vote"          
+            />      
+        </div>
+
+
       </div>   
     )
   }
@@ -38,6 +58,8 @@ const anecdotes = [
   'Premature optimization is the root of all evil.',
   'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
 ]
+
+//const pisteet = [0, 0, 0, 0, 0, 0]
 
 const Button = (props) => {
     return (
