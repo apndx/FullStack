@@ -34,8 +34,7 @@ class App extends React.Component {
                 handleClick ={this.changeAnecdote(Math.floor(Math.random() * 6))}
                 text="next"
             />      
-        </div>
-       
+        </div>     
         <div>
        
             <Button 
@@ -43,13 +42,40 @@ class App extends React.Component {
                 text="vote"          
             />      
         </div>
-
-
+        <div>
+          <h2> anecdote with most votes:</h2>
+              {this.props.anecdotes[findMostPopular(this.state.pisteet, 0)]}
+        </div>
+        <div>
+            has {findMostPopular(this.state.pisteet, 1)} votes
+        </div>
       </div>   
     )
   }
 }
 
+function findMostPopular(props, votes) {
+
+  console.log('find pop saa propsin', props)
+  var best = 0;
+  var bestIndex =0;
+
+  for(var i=0; i<props.length; i++) {
+    if (props[i]>best)  {
+      best = props[i];
+      bestIndex = i;
+    } 
+  }
+    if (votes===0) {
+      console.log('find pop palauttaa', bestIndex)
+       return bestIndex;
+    } else {
+      console.log('find votes palauttaa', best)
+      return best;
+    } 
+}  
+
+ 
 const anecdotes = [
   'If it hurts, do it more often.',
   'Adding manpower to a late software project makes it later!',
@@ -59,7 +85,6 @@ const anecdotes = [
   'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
 ]
 
-//const pisteet = [0, 0, 0, 0, 0, 0]
 
 const Button = (props) => {
     return (
