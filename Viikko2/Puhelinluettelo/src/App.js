@@ -9,7 +9,8 @@ class App extends React.Component {
       persons: [],
       newName: '',
       newPhone: '',
-      success: null
+      success: null,
+      search: ''
     }
     console.log('constructor')
   }
@@ -41,6 +42,10 @@ class App extends React.Component {
         })
       } 
     }
+  }
+
+  handleSearch = (event) => {
+    this.setState({search: event.target.value})
   }
 
   addPerson = (event) => {
@@ -96,15 +101,30 @@ class App extends React.Component {
     console.log(this.state.persons)
     return (
       <div>   
-        <h2>Puhelinluettelo</h2>
+        <h2>Puhelinluettelo</h2>      
         <Notification message={this.state.success}/>  
-            <Lomake lomake = {this} />
+        <Rajaus rajaus = {this} />
+        <Lomake lomake = {this} />
         <h2>Numerot</h2>          
         <Person tyyppi = {this} />  
       </div>
     )
   }
 }
+
+const Rajaus = ({rajaus}) => {
+  return (
+    <div> 
+      rajaa näytettäviä:
+    <input 
+      value = {rajaus.state.search}
+      onChange = {rajaus.handleSearch}
+    />
+    </div> 
+  )
+  
+}
+
 
 const Lomake = ({lomake}) => {
   //console.log('lomakkeen saama props', lomake)
@@ -133,9 +153,15 @@ const Lomake = ({lomake}) => {
 
 const Person = (props) => {
   console.log('personin saama props', props)
+
+  const namesToShow =
+  props.tyyppi.state.showAll ?
+    props.tyyppi.state.persons :
+    props.tyyppi.state.persons.filter(person=> person.name.includes(props.tyyppi.state.search))
+
   return (
     <ul>
-    {props.tyyppi.state.persons.map(person => 
+    {namesToShow.map(person => 
       <li key = {person.id}>
       <Name 
       person ={person} 
