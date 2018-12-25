@@ -58,7 +58,8 @@ class App extends React.Component {
     }
 
     const personNames = this.state.persons.map(person=> person.name)
-   
+    
+
       if (!personNames.includes(this.state.newName)) {
      
       console.log('before post')
@@ -81,8 +82,27 @@ class App extends React.Component {
       
         console.log('after post')
         console.log(this.state.persons)
-    }
+    } else {
+      const foundPerson = this.state.persons.find(person => person.name ===this.state.newName)
 
+      console.log ('numeronmuutoksen löytämä id', foundPerson.id)
+      if (window.confirm("Nimi löytyy jo, korvataanko numero uudella?")) {
+
+        personService
+          .update(foundPerson.id, personObject)
+          .then(response => {
+            this.setState ({           
+              persons: this.state.persons.map(person=> person.id !== foundPerson.id ? person : response.data),
+              newName: '',
+              newPhone: '',
+              success: `Muutettiin numeroa henkilölle ' ${personObject.name} ' `
+          })
+          setTimeout(() => {
+            this.setState({ success: null })
+          }, 5000)
+        })
+      }
+    }
   }
 
   componentDidMount() {

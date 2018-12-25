@@ -1,14 +1,9 @@
 {
   "persons": [
     {
-      "name": "Arto Hellas",
-      "phone": "040-123456",
-      "id": 1
-    },
-    {
       "name": "Martti Tienari",
-      "phone": "040-123456",
-      "id": 2
+      "phone": "040 - 000000",
+      "id": 1
     },
     {
       "name": "Arto Järvinen",
@@ -16,9 +11,14 @@
       "id": 3
     },
     {
-      "name": "Hieno Herra",
-      "phone": "045 -5246466",
-      "id": 4
+      "name": "Leidi Livia",
+      "phone": "040 - 8747474",
+      "id": 5
+    },
+    {
+      "name": "Kalle",
+      "phone": "045 -666666",
+      "id": 6
     }
   ]
 }
