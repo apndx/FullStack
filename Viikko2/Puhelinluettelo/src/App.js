@@ -51,20 +51,15 @@ class App extends React.Component {
   addPerson = (event) => {
     event.preventDefault()
     const personObject = {
-
       name: this.state.newName, 
       phone: this.state.newPhone,
-
     }
 
     const personNames = this.state.persons.map(person=> person.name)
     
-
       if (!personNames.includes(this.state.newName)) {
-     
       console.log('before post')
-      console.log(this.state.persons)
-  
+      console.log(this.state.persons) 
       personService
         .create(personObject)
         .then(response => {
@@ -97,12 +92,18 @@ class App extends React.Component {
               newPhone: '',
               success: `Muutettiin numeroa henkilölle ' ${personObject.name} ' `
           })
-          setTimeout(() => {
-            this.setState({ success: null })
-          }, 5000)
+        })  
+        .catch(success => {
+          this.setState({
+            success: `Tämä luettelotieto '${foundPerson.name}' on jo valitettavasti poistettu palvelimelta`,
+            persons: this.state.persons.filter(n => n.id !== foundPerson.id)
         })
-      }
+        setTimeout(() => {
+          this.setState({ success: null })
+        }, 5000)
+        })
     }
+  }
   }
 
   componentDidMount() {

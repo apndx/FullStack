@@ -14,7 +14,7 @@ class App extends React.Component {
     console.log('constructor')
   }
 
-  handleSearch = (event) => {
+  handleSearch = (event) => { 
     this.setState({search: event.target.value})
   }
 
@@ -29,7 +29,6 @@ class App extends React.Component {
   }
 
   render() {
-    
     console.log('render')
     console.log(this.state.countries)
     return (
@@ -61,14 +60,16 @@ const Country = (props) => {
   console.log('countryn saama props', props)
 
   const namesToShow =
-  props.maa.state.showAll ?
-    '' :
-    props.maa.state.countries.filter(country=> country.name.includes(props.maa.state.search))
+
+    props.maa.state.showAll ? //tätä ei ole edes määritelty
+      [] :
+      props.maa.state.countries.filter(country=> country.name.includes(props.maa.state.search))
+    
 
   return (
     <ul>
     {namesToShow.map(country => 
-      <li key = {country.id}>
+      <li key = {country.alpha2Code}>
       <Name country ={country} 
        />
       </li>)} 
