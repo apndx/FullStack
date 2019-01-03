@@ -98,10 +98,10 @@ class App extends React.Component {
             success: `Tämä luettelotieto '${foundPerson.name}' on jo valitettavasti poistettu palvelimelta`,
             persons: this.state.persons.filter(n => n.id !== foundPerson.id)
         })
+        })
         setTimeout(() => {
           this.setState({ success: null })
         }, 5000)
-        })
     }
   }
   }
