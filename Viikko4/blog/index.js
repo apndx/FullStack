@@ -9,7 +9,7 @@ const blogsRouter = require('./controllers/blogs')
 app.use(cors())
 app.use(bodyParser.json())
 app.use('/api/blogs', blogsRouter)
-const mongoUrl = 'mongodb://user:pass@ds131583.mlab.com:31583/bloglist'
+const mongoUrl = 'mongodb://blogger:D5bkQxLMy3JYmRF@ds131583.mlab.com:31583/bloglist'
 mongoose.connect(mongoUrl)
 
 const PORT = 3003
