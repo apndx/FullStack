@@ -33,6 +33,35 @@ describe('when there is initially some notes saved', async () => {
   })
 })
 
+describe('adding a new blog', async () => {
+
+  test('POST /api/blogs is successful with a valid blog', async() => {
+    const blogsAtTheBeginning = await blogsInDb()
+
+    const newBlog = { 
+      title: 'Their fourth blog',
+      author: 'The Bloggers',
+      url: 'https://www.somethingelsealtohgetheritis.fi',
+      likes: 0
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    const blogsAfterOperation = await blogsInDb()
+
+    expect(blogsAfterOperation.length).toBe(blogsAtTheBeginning.length +1)
+
+    const titles = blogsAfterOperation.map(blog => blog.title)
+    expect(titles).toContain('Their fourth blog')
+  })
+
+
+})
+
 afterAll(() => {
   server.close()
 })
