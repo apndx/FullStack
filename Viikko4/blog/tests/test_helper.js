@@ -53,13 +53,10 @@ const initialBlogs = [
 
 const format = (blog) => {
 
-  if (blog.likes === undefined) {
-    blog.likes = 0
-  }
-
   return {
     title: blog.title,
     author: blog.author,
+    url: blog.url,
     likes: blog.likes
   }
 }

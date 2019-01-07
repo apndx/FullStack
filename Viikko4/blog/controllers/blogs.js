@@ -1,6 +1,16 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
 
+const format = (blog) => {
+
+  return {
+    title: blog.title,
+    author: blog.author,
+    url: blog.url,
+    likes: blog.likes
+  }
+}
+
 blogsRouter.get('/', (request, response) => {
   Blog
     .find({})
@@ -46,6 +56,27 @@ blogsRouter.delete('/:id', (request, response) => {
       response.status(204).end()
     })
     .catch(error => {
+      response.status(400).send({ error: 'malformatted id' })
+    })
+})
+
+blogsRouter.put('/:id', (request, response) => {
+  const body = request.body
+
+  const blog = {
+    title: body.title,
+    author: body.author,
+    url: body.url,
+    likes: body.likes
+  }  
+
+  Blog
+    .findByIdAndUpdate(request.params.id, blog, { new: true})
+    .then(updatedBlog => {
+      response.json(format(updatedBlog))
+    })
+    .catch(error => {
+      console.log(error)
       response.status(400).send({ error: 'malformatted id' })
     })
 })
