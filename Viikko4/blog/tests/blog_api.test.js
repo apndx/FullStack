@@ -82,6 +82,45 @@ describe('adding a new blog', async () => {
     expect(likes).toBe(0)
   })
 
+  test('POST /api/blogs fails with proper statuscode if title or url is missing', async () => {
+    const blogsAtTheBeginning = await blogsInDb()
+
+    const newBlogNoTitleNoUrl = {
+      author: 'The Bloggers Family',
+      likes:0
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlogNoTitleNoUrl)
+      .expect(400)
+
+    const newBlogNoTitle = {
+      author: 'The Bloggers Family',
+      url: 'https://www.somethingfamilysays.fi',
+      likes:0
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlogNoTitle)
+      .expect(400)
+
+    const newBlogNoUrl = {
+      title: 'Their fift blog',
+      author: 'The Bloggers Family',
+      likes:0
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlogNoUrl)
+      .expect(400)
+
+    const blogsAfterOperation = await blogsInDb()
+    expect(blogsAfterOperation.length).toBe(blogsAtTheBeginning.length)
+
+  })
 
 
 })

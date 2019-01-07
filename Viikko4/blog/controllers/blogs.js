@@ -10,17 +10,33 @@ blogsRouter.get('/', (request, response) => {
 })
 
 blogsRouter.post('/', (request, response) => {
-  const blog = new Blog(request.body)
+  
+  try {
 
-  if (request.params.likes === undefined) {
-    blog.likes = 0
+    const body = request.body
+    
+    if (body.title=== undefined || body.url=== undefined) {
+      return response.status(400).json({ error: 'title or url missing' })
+    }
+    const blog = new Blog(request.body)
+    
+    if (blog.likes === undefined) {
+      blog.likes = 0
+    }
+
+    blog
+      .save()
+      .then(result => {
+        response.status(201).json(result)
+      })
+
+  } catch (exception) {
+    console.log(exception)
+    response.status(500).json({ error: 'something went wrong...' })
   }
-
-  blog
-    .save()
-    .then(result => {
-      response.status(201).json(result)
-    })
+  
+  
+ 
 })
 
 module.exports = blogsRouter
