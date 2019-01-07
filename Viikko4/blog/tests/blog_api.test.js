@@ -39,7 +39,7 @@ describe('adding a new blog', async () => {
     const blogsAtTheBeginning = await blogsInDb()
 
     const newBlog = { 
-      title: 'Their fourth blog',
+      title: 'Our fourth blog',
       author: 'The Bloggers',
       url: 'https://www.somethingelsealtohgetheritis.fi',
       likes: 0
@@ -56,8 +56,32 @@ describe('adding a new blog', async () => {
     expect(blogsAfterOperation.length).toBe(blogsAtTheBeginning.length +1)
 
     const titles = blogsAfterOperation.map(blog => blog.title)
-    expect(titles).toContain('Their fourth blog')
+    expect(titles).toContain('Our fourth blog')
   })
+
+  test('POST /api/blogs default likes is 0 if likes is empty', async() => {
+    const blogsAtTheBeginning = await blogsInDb()
+
+    const newBlog = {
+      title: 'Their fift blog',
+      author: 'The Bloggers Family',
+      url: 'https://www.somethingfamilysays.fi'
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    const blogsAfterOperation = await blogsInDb()
+    expect(blogsAfterOperation.length).toBe(blogsAtTheBeginning.length +1)
+    
+    const newBlogFromDb = blogsAfterOperation.find(blog => blog.title === 'Their fift blog')
+    const likes = newBlogFromDb.likes
+    expect(likes).toBe(0)
+  })
+
 
 
 })
