@@ -1,5 +1,4 @@
 const totalLikes = require('../utils/list_helper').totalLikes
-const favouriteFinder = require('../utils/list_helper').favourite
 const { initialBlogs } = require('./test_helper')
 
 const listWithOneBlog = [
@@ -27,26 +26,6 @@ describe('total likes', () => {
 
 })
 
-// describe('favourite blog'), () => {
- 
-      
-//   test('when list has only one blog it is the favourite', () => {
-//     const result = favouriteFinder(listWithOneBlog)
-//     expect(result).toEqual(
-//       {
-//         _id: '5a422aa71b54a676234d17f8',
-//         title: 'Go To Statement Considered Harmful',
-//         author: 'Edsger W. Dijkstra',
-//         url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
-//         likes: 5,
-//         __v: 0
-//       } 
-//     )
-
-
-//   })
-
-// }
 
 
 
