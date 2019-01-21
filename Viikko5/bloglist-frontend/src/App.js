@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+//import React, { useState } from 'react'
+import React from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -18,11 +19,29 @@ class App extends React.Component {
     blogService.getAll().then(blogs =>
       this.setState({ blogs })
     )
+    const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      this.setState({user})
+      blogService.setToken(user.token)
+    }  
   } 
 
   login = (event) => {
     event.preventDefault()
     console.log('logging in with', this.state.username, this.state.password)
+  }
+
+  logout = (event) => {
+    event.preventDefault()
+    console.log('loggin out')
+  }
+
+  logout = async (event) => {
+    event.preventDefault()
+    const user = null
+    window.localStorage.removeItem('loggedNoteappUser')
+    this.setState({ username: '', password: '', user })
   }
 
   handleLoginFieldChange = (event) => {
@@ -37,6 +56,7 @@ class App extends React.Component {
         password: this.state.password
       })
 
+      window.localStorage.setItem('loggedNoteappUser', JSON.stringify(user))
       blogService.setToken(user.token)
       this.setState({ username: '', password: '', user })
     } catch (exception) {
@@ -94,6 +114,7 @@ class App extends React.Component {
         loginForm() :
         <div>
         <p>{this.state.user.name} logged in</p>
+        <button onClick={this.logout}>logout</button>
         {blogList()}
       </div>
       }      
