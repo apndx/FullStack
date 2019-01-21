@@ -11,7 +11,11 @@ class App extends React.Component {
       blogs: [],
       username: '',
       password: '',
-      user: null
+      user: null,
+      newTitle: '',
+      newAuthor: '',
+      newUrl: '',
+      newBlog: null
     }
   }
 
@@ -27,21 +31,16 @@ class App extends React.Component {
     }  
   } 
 
-  login = (event) => {
-    event.preventDefault()
-    console.log('logging in with', this.state.username, this.state.password)
-  }
-
-  logout = (event) => {
-    event.preventDefault()
-    console.log('loggin out')
-  }
-
   logout = async (event) => {
+    console.log('logging out')
     event.preventDefault()
     const user = null
     window.localStorage.removeItem('loggedNoteappUser')
     this.setState({ username: '', password: '', user })
+  }
+
+  handleBlogFieldChange = (event) => {
+    this.setState({ [event.target.name]: event.target.value })
   }
 
   handleLoginFieldChange = (event) => {
@@ -49,6 +48,7 @@ class App extends React.Component {
   }
 
   login = async (event) => {
+    console.log('logging in with', this.state.username, this.state.password)
     event.preventDefault()
     try {
       const user = await loginService.login({
@@ -69,7 +69,65 @@ class App extends React.Component {
     }
   }
 
+  addBlog = (event) => {
+    event.preventDefault()
+    
+      const blogObject = {
+        title: this.state.newTitle,
+        author: this.state.newAuthor,
+        url: this.state.newUrl
+      }  
+      
+      blogService 
+        .create(blogObject)
+        .then(newBlog => {
+          this.setState({
+            blogs: this.state.blogs.concat(newBlog),
+            newBlog: null,
+            newTitle: '',
+            newAuthor: '',
+            newUrl: ''
+          })
+        })
+  }
+
   render() {
+
+    const blogForm = () => (
+      <div>
+        <h2>Add a new blog</h2>
+        <form onSubmit = {this.addBlog}>
+          <div>
+            Title 
+            <input
+              type = "text"
+              name = "newTitle"
+              value = {this.state.newTitle} 
+              onChange = {this.handleBlogFieldChange}
+            />
+          </div>
+          <div>
+            Author 
+            <input
+              type = "text"
+              name = "newAuthor"
+              value = {this.state.newAuthor}
+              onChange = {this.handleBlogFieldChange}
+            />            
+          </div>
+          <div>
+            Url 
+            <input
+              type = "text"
+              name = "newUrl"
+              value = {this.state.newUrl}
+              onChange = {this.handleBlogFieldChange}
+            />  
+          </div>
+          <button>add</button>
+        </form>
+      </div>
+    )
 
     const loginForm = () => (
       <div>
@@ -77,7 +135,7 @@ class App extends React.Component {
 
         <form onSubmit={this.login}>
           <div>
-            usename
+            username
             <input
               type="text"
               name="username"
@@ -102,7 +160,7 @@ class App extends React.Component {
     const blogList = () => (
       <div>
        {this.state.blogs.map(blog => 
-          <Blog key={blog._id} blog={blog}/>
+          <Blog key={blog.id} blog={blog}/>
         )}
       </div>
     )
@@ -115,6 +173,7 @@ class App extends React.Component {
         <div>
         <p>{this.state.user.name} logged in</p>
         <button onClick={this.logout}>logout</button>
+        {blogForm()}
         {blogList()}
       </div>
       }      
