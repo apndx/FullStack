@@ -1,6 +1,7 @@
 //import React, { useState } from 'react'
 import React from 'react'
 import Blog from './components/Blog'
+import Notification from './components/Notification'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -15,7 +16,8 @@ class App extends React.Component {
       newTitle: '',
       newAuthor: '',
       newUrl: '',
-      newBlog: null
+      newBlog: null, 
+      success: null
     }
   }
 
@@ -61,24 +63,26 @@ class App extends React.Component {
       this.setState({ username: '', password: '', user })
     } catch (exception) {
       this.setState({
-        error: 'wrong username or password',
+        success: 'wrong username or password',
       })
       setTimeout(() => {
-        this.setState({ error: null })
+        this.setState({ success: null })
       }, 5000)
     }
   }
 
   addBlog = (event) => {
-    event.preventDefault()
-    
+    event.preventDefault()   
       const blogObject = {
         title: this.state.newTitle,
         author: this.state.newAuthor,
         url: this.state.newUrl
       }  
       
-      blogService 
+      if (this.state.newTitle ==='' || this.state.newAuthor === '' || this.state.newUrl === '') {
+        this.setState({success: `Fill all details first`})
+      } else {
+        blogService 
         .create(blogObject)
         .then(newBlog => {
           this.setState({
@@ -86,9 +90,15 @@ class App extends React.Component {
             newBlog: null,
             newTitle: '',
             newAuthor: '',
-            newUrl: ''
+            newUrl: '',
+            success: `blog added: ' ${blogObject.title} ' `
           })
+        
         })
+      }
+      setTimeout(() => {
+        this.setState({ success: null })
+      }, 5000)
   }
 
   render() {
@@ -168,7 +178,8 @@ class App extends React.Component {
     return (
       <div>
         <h2>Blogs</h2>
-      {this.state.user === null ?
+        <Notification message = {this.state.success} />
+        {this.state.user === null ?
         loginForm() :
         <div>
         <p>{this.state.user.name} logged in</p>
