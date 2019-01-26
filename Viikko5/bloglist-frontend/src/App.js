@@ -85,7 +85,7 @@ class App extends React.Component {
       if (this.state.newTitle ==='' || this.state.newAuthor === '' || this.state.newUrl === '') {
         this.setState({success: `Fill all details first`})
       } else {
-        this.blogForm.toggleVisibility()
+        
         blogService 
         .create(blogObject)
         .then(newBlog => {
@@ -98,6 +98,7 @@ class App extends React.Component {
             success: `blog added: ' ${blogObject.title} ' `
           })      
         })
+      this.blogForm.toggleVisibility()  
       }
       setTimeout(() => {
         this.setState({ success: null })
@@ -107,13 +108,12 @@ class App extends React.Component {
   render() {
 
     const blogForm = () => (
-      <Togglable buttonlabel= "add" ref={component => this.blogForm = component}>
+      <Togglable buttonLabel= "add" ref={component => this.blogForm = component}>
         <BlogForm
           onSubmit={this.addBlog}
           title={this.state.newTitle}
           author={this.state.newAuthor}
           url={this.state.newUrl}
-          value={this.state.newBlog}
           handleChange={this.handleBlogFieldChange}           
         />
       </Togglable>

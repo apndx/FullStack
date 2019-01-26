@@ -1,7 +1,7 @@
 import React from 'react'
 
 const BlogForm = ({ onSubmit, handleChange, newTitle, newAuthor, newUrl }) => {
-  console.log('blogformin saama author', newAuthor)
+  //console.log('blogformin saama author', newAuthor)
     return (
       <div>
         <h2>Add a new blog</h2>
@@ -10,7 +10,7 @@ const BlogForm = ({ onSubmit, handleChange, newTitle, newAuthor, newUrl }) => {
             Title
             <input
               type = "text"
-              name = "title"
+              name = "newTitle"
               value={newTitle}
               onChange={handleChange}
             />
@@ -19,7 +19,7 @@ const BlogForm = ({ onSubmit, handleChange, newTitle, newAuthor, newUrl }) => {
             Author
             <input
             type = "text"
-            name = "author"
+            name = "newAuthor"
             value = {newAuthor}
             onChange={handleChange}
             />
@@ -28,7 +28,7 @@ const BlogForm = ({ onSubmit, handleChange, newTitle, newAuthor, newUrl }) => {
             Url
             <input
             type = "text"
-            name = "url"
+            name = "newUrl"
             value = {newUrl}
             onChange={handleChange}
             />
