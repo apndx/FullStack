@@ -2,8 +2,11 @@
 import React from 'react'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
+import Togglable from './components/Togglable'
+import LoginForm from './components/LoginForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import BlogForm from './components/BlogForm';
 
 class App extends React.Component {
   constructor(props) {
@@ -72,16 +75,17 @@ class App extends React.Component {
   }
 
   addBlog = (event) => {
-    event.preventDefault()   
+    event.preventDefault() 
+    console.log('lisäyksessä title author ja url: ', this.state.newTitle, this.state.newAuthor, this.state.newUrl)  
       const blogObject = {
         title: this.state.newTitle,
         author: this.state.newAuthor,
         url: this.state.newUrl
       }  
-      
       if (this.state.newTitle ==='' || this.state.newAuthor === '' || this.state.newUrl === '') {
         this.setState({success: `Fill all details first`})
       } else {
+        this.blogForm.toggleVisibility()
         blogService 
         .create(blogObject)
         .then(newBlog => {
@@ -92,8 +96,7 @@ class App extends React.Component {
             newAuthor: '',
             newUrl: '',
             success: `blog added: ' ${blogObject.title} ' `
-          })
-        
+          })      
         })
       }
       setTimeout(() => {
@@ -104,67 +107,28 @@ class App extends React.Component {
   render() {
 
     const blogForm = () => (
-      <div>
-        <h2>Add a new blog</h2>
-        <form onSubmit = {this.addBlog}>
-          <div>
-            Title 
-            <input
-              type = "text"
-              name = "newTitle"
-              value = {this.state.newTitle} 
-              onChange = {this.handleBlogFieldChange}
-            />
-          </div>
-          <div>
-            Author 
-            <input
-              type = "text"
-              name = "newAuthor"
-              value = {this.state.newAuthor}
-              onChange = {this.handleBlogFieldChange}
-            />            
-          </div>
-          <div>
-            Url 
-            <input
-              type = "text"
-              name = "newUrl"
-              value = {this.state.newUrl}
-              onChange = {this.handleBlogFieldChange}
-            />  
-          </div>
-          <button>add</button>
-        </form>
-      </div>
+      <Togglable buttonlabel= "add" ref={component => this.blogForm = component}>
+        <BlogForm
+          onSubmit={this.addBlog}
+          title={this.state.newTitle}
+          author={this.state.newAuthor}
+          url={this.state.newUrl}
+          value={this.state.newBlog}
+          handleChange={this.handleBlogFieldChange}           
+        />
+      </Togglable>
     )
 
     const loginForm = () => (
-      <div>
-        <h3>Login</h3>
-
-        <form onSubmit={this.login}>
-          <div>
-            username
-            <input
-              type="text"
-              name="username"
-              value={this.state.username}
-              onChange={this.handleLoginFieldChange}
-            />
-          </div>
-          <div>
-            password
-            <input
-              type="password"
-              name="password"
-              value={this.state.password}
-              onChange={this.handleLoginFieldChange}
-            />
-          </div>
-          <button>login</button>
-        </form>
-      </div>
+      <Togglable buttonLabel="login">
+        <LoginForm
+          visible={this.state.visible}
+          username={this.state.username}
+          password={this.state.password}
+          handleChange={this.handleLoginFieldChange}
+          handleSubmit={this.login}
+        />
+      </Togglable>
     )
 
     const blogList = () => (
@@ -176,19 +140,19 @@ class App extends React.Component {
     )
 
     return (
-      <div>
-        <h2>Blogs</h2>
-        <Notification message = {this.state.success} />
-        {this.state.user === null ?
-        loginForm() :
         <div>
-        <p>{this.state.user.name} logged in</p>
-        <button onClick={this.logout}>logout</button>
-        {blogForm()}
-        {blogList()}
-      </div>
-      }      
-      </div>
+          <h2>Blogs</h2>
+          <Notification message = {this.state.success} />
+          {this.state.user === null ?
+            loginForm() :
+            <div>
+              <p>{this.state.user.name} logged in</p>
+              <button onClick={this.logout}>logout</button>
+              {blogForm()}
+              {blogList()}
+            </div>
+          }      
+        </div>
     );
   }
 }
