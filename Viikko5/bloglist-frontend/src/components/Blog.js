@@ -8,6 +8,7 @@ const Blog = ({blog, onClick}) => (
     {blog.title} -- {blog.author} 
     <Togglable buttonLabel="show"> 
     <p>{blog.url} -- likes: {blog.likes} <button onClick={onClick}>like</button></p>
+    <p> added by {blog.user.name}</p>
     </Togglable>
   </div>  
 )
