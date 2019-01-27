@@ -7,6 +7,7 @@ import LoginForm from './components/LoginForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import BlogForm from './components/BlogForm';
+import userService from './services/users'
 
 class App extends React.Component {
   constructor(props) {
@@ -20,7 +21,9 @@ class App extends React.Component {
       newAuthor: '',
       newUrl: '',
       newBlog: null, 
-      success: null
+      likes: 0,
+      success: null,
+      users: []
     }
   }
 
@@ -28,6 +31,9 @@ class App extends React.Component {
     blogService.getAll().then(blogs =>
       this.setState({ blogs })
     )
+    userService.getAll().then(users =>     
+      this.setState({ users }))     
+
     const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
@@ -80,12 +86,14 @@ class App extends React.Component {
       const blogObject = {
         title: this.state.newTitle,
         author: this.state.newAuthor,
-        url: this.state.newUrl
+        url: this.state.newUrl,
+        likes: this.state.likes,
+        blogUser: this.state.user
       }  
       if (this.state.newTitle ==='' || this.state.newAuthor === '' || this.state.newUrl === '') {
         this.setState({success: `Fill all details first`})
       } else {
-        
+        console.log('bloglisäyksen saama user', blogObject.blogUser)
         blogService 
         .create(blogObject)
         .then(newBlog => {
