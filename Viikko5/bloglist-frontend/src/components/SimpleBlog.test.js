@@ -1,11 +1,12 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import SimpleBlog from './SimpleBlog'
+import Blog from './Blog';
 
 describe.only('<SimpleBlog />', () => {
     it('renders details and likes', () => {
         const blog = {
-            title: 'blogi yksinkertaisuudesta',
+            title: 'Blogi yksinkertaisuudesta',
             author: 'Simplisti',
             likes: 3
         }
@@ -20,4 +21,27 @@ describe.only('<SimpleBlog />', () => {
         expect(likesDiv.text()).toContain(blog.likes)
         expect(likesDiv.equals(blog.likes))
     })
+
+    it('liking a blog twice calls the handler twice', () => {
+        const blog  = {
+            title: 'Blogi tykkäämisen taidosta',
+            author: 'Liker',
+            likes: 99
+        }
+
+        const mockHandler = jest.fn()
+
+        const blogComponent = shallow(
+            <SimpleBlog
+                blog = {blog}
+                onClick = {mockHandler}
+            />    
+        )
+
+        const button =  blogComponent.find('button')
+        button.simulate('click')
+        button.simulate('click')
+        expect(mockHandler.mock.calls.length).toBe(2)
+    })
+
 })

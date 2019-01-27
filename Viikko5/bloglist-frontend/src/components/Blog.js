@@ -2,12 +2,12 @@
 import React from 'react'
 import Togglable from './Togglable'
 
-const Blog = ({blog, onClick}) => (
+const Blog = ({blog, onLike}) => (
 
   <div>
     {blog.title} -- {blog.author} 
     <Togglable buttonLabel="show"> 
-    <p>{blog.url} -- likes: {blog.likes} <button onClick={onClick}>like</button></p>
+    <p>{blog.url} -- likes: {blog.likes} <button onClick={onLike}>like</button></p>
     <p> added by {blog.user.name}</p>
     </Togglable>
   </div>  

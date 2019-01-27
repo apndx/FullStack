@@ -58,6 +58,11 @@ class App extends React.Component {
     this.setState({ [event.target.name]: event.target.value })
   }
 
+  handleLike = (howMany) => () => {
+    console.log('handleLiken saama howmany', howMany)
+    this.setState({likes: howMany})
+  }
+
   login = async (event) => {
     console.log('logging in with', this.state.username, this.state.password)
     event.preventDefault()
@@ -77,6 +82,40 @@ class App extends React.Component {
       setTimeout(() => {
         this.setState({ success: null })
       }, 5000)
+    }
+  }
+
+  likeBlog = (id) => {
+    
+    return () => {
+      const blog = this.state.blogs.find(n => n.id ===id)
+      const changedBlog = {
+        title: blog.title,
+        author: blog.author,
+        url: blog.url,
+        likes: blog.likes+1,
+        user: blog.user,
+      }
+
+      console.log('likeBlogin blog', blog)
+      console.log('likeBlogin changedBlog', changedBlog)
+
+      blogService
+        .update(id, changedBlog)
+        .then(response => {
+          this.setState({
+            blogs: this.state.blogs.map(blog => blog.id !== id ? blog : response.data)
+          })
+        })
+          .catch(success => {
+            this.setState({
+              success: `The blog '${blog.title}' has already been deleted from the server`,
+              blogs: this.state.blogs.filter(n => n.id !== id)
+            })
+            setTimeout(() => {
+              this.setState({ success: null })
+            }, 50000)
+          })
     }
   }
 
@@ -142,7 +181,12 @@ class App extends React.Component {
     const blogList = () => (
       <div>
        {this.state.blogs.map(blog => 
-          <Blog key={blog.id} blog={blog}/>
+          <Blog 
+            key={blog.id} 
+            blog={blog} 
+            onClick={this.handleLike(this.state.likes+1)}
+            onLike = {this.likeBlog(blog.id)}
+            />
         )}
       </div>
     )
