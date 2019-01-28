@@ -184,7 +184,6 @@ class App extends React.Component {
           <Blog 
             key={blog.id} 
             blog={blog} 
-            onClick={this.handleLike(this.state.likes+1)}
             onLike = {this.likeBlog(blog.id)}
             />
         )}
