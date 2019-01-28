@@ -1,7 +1,6 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import SimpleBlog from './SimpleBlog'
-import Blog from './Blog';
 
 describe.only('<SimpleBlog />', () => {
     it('renders details and likes', () => {
