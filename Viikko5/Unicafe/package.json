@@ -12,8 +12,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "lint": "eslint ."
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -25,8 +24,6 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "deep-freeze": "0.0.1",
-    "eslint": "^5.14.0",
-    "eslint-plugin-react": "^7.12.4"
+    "deep-freeze": "0.0.1"
   }
 }
