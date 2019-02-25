@@ -13,10 +13,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "lint": "eslint ."
+    "eject": "react-scripts eject"
   },
-  "proxy": "http://localhost:9001",
+  "proxy": "http://localhost:3001",
   "browserslist": [
     ">0.2%",
     "not dead",
@@ -26,8 +25,7 @@
   "devDependencies": {
     "enzyme": "^3.8.0",
     "enzyme-adapter-react-16": "^1.8.0",
-    "eslint-plugin-jest": "^22.3.0",
-    "jest-dom": "^3.1.2",
-    "react-testing-library": "^5.9.0"
+    "jest-dom": "^3.0.1",
+    "react-testing-library": "^5.4.4"
   }
 }

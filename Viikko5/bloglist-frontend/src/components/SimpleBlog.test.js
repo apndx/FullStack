@@ -1,46 +1,52 @@
 import React from 'react'
-import { shallow } from 'enzyme'
+import 'jest-dom/extend-expect'
+import { render, fireEvent } from 'react-testing-library'
 import SimpleBlog from './SimpleBlog'
 
-describe.only('<SimpleBlog />', () => {
-    it('renders details and likes', () => {
-        const blog = {
-            title: 'Blogi yksinkertaisuudesta',
-            author: 'Simplisti',
-            likes: 3
-        }
 
-        const simpleBlogComponent = shallow(<SimpleBlog blog={blog}/>)
-        console.log('simpleblog ', blog)
-        const detailsDiv = simpleBlogComponent.find('.details')
-        const likesDiv = simpleBlogComponent.find('.likes')
+test('renders title, author, likes', () => {
+  const simpleBlog = {
+    title: 'Blogi yksinkertaisuudesta',
+    author: 'Simplisti',
+    likes: 3
+  }
 
-        expect(detailsDiv.text()).toContain(blog.title)
-        expect(detailsDiv.text()).toContain(blog.author)
-        expect(likesDiv.text()).toContain(blog.likes)
-        expect(likesDiv.equals(blog.likes))
-    })
+  const component = render(
+    <SimpleBlog blog ={simpleBlog} />
+  )
 
-    it('liking a blog twice calls the handler twice', () => {
-        const blog  = {
-            title: 'Blogi tykkäämisen taidosta',
-            author: 'Liker',
-            likes: 99
-        }
+  expect(component.container).toHaveTextContent(
+    'Blogi yksinkertaisuudesta'
+  )
 
-        const mockHandler = jest.fn()
+  expect(component.container).toHaveTextContent(
+    'Simplisti'
+  )
 
-        const blogComponent = shallow(
-            <SimpleBlog
-                blog = {blog}
-                onClick = {mockHandler}
-            />    
-        )
-
-        const button =  blogComponent.find('button')
-        button.simulate('click')
-        button.simulate('click')
-        expect(mockHandler.mock.calls.length).toBe(2)
-    })
+  expect(component.container).toHaveTextContent(
+    'has 3 likes'
+  )
 
 })
+
+it('clicking a button once calls handler once', async () => {
+  const blogAboutLikes = {
+    title: 'Blogi tykkäämisen taidosta',
+    author: 'Liker',
+    likes: 99
+  }
+
+  const mockHandler = jest.fn()
+
+  const { getByText } = render(
+    <SimpleBlog blog = {blogAboutLikes} onClick={mockHandler} />
+  )
+
+  const button = getByText('like')
+  fireEvent.click(button)
+  fireEvent.click(button)
+  expect(mockHandler.mock.calls.length).toBe(2)
+
+})
+
+

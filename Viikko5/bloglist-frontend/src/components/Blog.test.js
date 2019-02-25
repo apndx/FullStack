@@ -1,68 +1,51 @@
 import React from 'react'
-import { shallow, mount } from 'enzyme'
-import Blog from './Blog';
+import 'jest-dom/extend-expect'
+import { render, fireEvent  } from 'react-testing-library'
+import Blog from './Blog'
 
-describe.only('<Blog />', () => {
+describe('<Blog />', () => {
+  let component
 
-    it('before clicking only title and author are displayed', () => {
-      const blog = {   
+  const mockHandler = jest.fn()
 
-                id: "5c461db7d05958139bb4b086",
-                title: "Blog about displaying details",
-                author: "Detailer",
-                url: "http://details.com",
-                likes: 2,
-                user: {
-                _id: "5c35fe3e2d79c76979a6acbb",
-                username: "bloggeri",
-                name: "Bloggeri"
-                }
-            }
-        
-        const mockHandler = jest.fn()
-        const blogComponent = shallow(<Blog 
-            blog={blog}
-            onLike= {mockHandler}
-            />)
-            const detailsDiv = blogComponent.find('.details')
+  const blog = {
+    id: '5c4ac620bb1e925e7323cb2c',
+    title: 'The testest Blog',
+    author: 'Testest Blogger',
+    url: 'http://testests.com',
+    likes: 0,
+    user: {
+      _id: '5c35fe3e2d79c76979a6acbb',
+      username: 'bloggeri',
+      name: 'Bloggeri'
+    }
+  }
 
-            expect(detailsDiv.text()).toContain(blog.title)
-            expect(detailsDiv.text()).toContain(blog.author)
-            expect(detailsDiv.text()).not.toContain(blog.likes)
-    })
+  beforeEach(() => {
+    component = render(
+      <Blog blog ={blog}
+        onLike = {mockHandler}
+        onDelete = {mockHandler}>
+        <div className="testDiv" />
+      </Blog>
+    )
+  })
 
-    
-    it('after clicking show button all details are displayed', () => {
-        // haetaan klikattava osa komponentista
-        const blog = {   
-                id: "5c461db7d05958139bb4b087",
-                title: "Another blog about displaying details",
-                author: "Detailer",
-                url: "http://anotherdetails.com",
-                likes: 2,
-                user: {
-                _id: "5c35fe3e2d79c76979a6acbb",
-                username: "bloggeri",
-                name: "Bloggeri"
-                }
-        }
-       
-        const mockHandler = jest.fn()
+  it('renders', () => {
+    component.container.querySelector('.testDiv')
+    //component.debug()
+  })
+  it('at start it renders only title and author', () => {
+    const div = component.container.querySelector('.togglables')
+    expect(div).toHaveStyle('display: none')
+  })
 
-        const blogComponent= shallow(
-            <Blog
-                blog = {blog}
-                onLike= {mockHandler}
-            />    
-        )
+  it('clicking the button brings additional details into view', () => {
+    const button = component.getByText('show')
+    fireEvent.click(button)
 
-        const button = blogComponent.find('button')
-        button.simulate('click')
+    const div = component.container.querySelector('.togglables')
+    expect(div).not.toHaveStyle('display: none')
+  })
 
-        // haetaan tarkastettava, eli detaljit sisältävä osa komponentista
-        const allContentDiv = blogComponent.find('.additionals')
-
-        expect(allContentDiv.text()).toContain(blog.likes)
-        expect(allContentDiv.text()).toContain(blog.user.name)
-    })
 })
