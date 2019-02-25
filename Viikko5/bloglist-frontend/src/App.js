@@ -2,18 +2,21 @@ import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
-import LoginForm from './components/LoginForm'
+//import LoginForm from './components/LoginForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import BlogForm from './components/BlogForm'
+import  { useField } from './hooks'
 //import userService from './services/users'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   //const [newBlog, setBlog] = useState(null)
   const [notification, setNotification] = useState(null)
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const username = useField('text')
+  const password = useField('password')
+  //const [username, setUsername] = useState('')
+  //const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [newTitle, setTitle] = useState('')
   const [newAuthor, setAuthor] = useState('')
@@ -41,7 +44,7 @@ const App = () => {
     event.preventDefault()
     try {
       const user = await loginService.login({
-        username, password,
+        username: username.value, password:password.value,
       })
 
       window.localStorage.setItem(
@@ -50,8 +53,8 @@ const App = () => {
 
       blogService.setToken(user.token)
       setUser(user)
-      setUsername('')
-      setPassword('')
+      //setUsername('')
+      //setPassword('')
     } catch (exception) {
       setNotification('wrong username or password')
       setTimeout(() => {
@@ -116,8 +119,8 @@ const App = () => {
     const user = null
     window.localStorage.clear()
     setUser(user)
-    setUsername('')
-    setPassword('')
+    //setUsername('')
+    //setPassword('')
     setNotification('Logged out, see you soon!')
     setTimeout(() => {
       setNotification(null)
@@ -134,13 +137,23 @@ const App = () => {
           <button onClick={() => setLoginVisible(true)}>log in</button>
         </div>
         <div style={showWhenVisible}>
-          <LoginForm
+          {/* <LoginForm
             username={username}
             password={password}
             handleUsernameChange={({ target }) => setUsername(target.value)}
             handlePasswordChange={({ target }) => setPassword(target.value)}
             handleSubmit={handleLogin}
-          />
+          /> */}
+          <form onSubmit={handleLogin}>
+          username:
+            <input {...username} />
+            <br/>
+          password:
+            <input {...password} />
+            <div>
+              <button type = "submit">login</button>
+            </div>
+          </form>
           <button onClick={() => setLoginVisible(false)}>cancel</button>
         </div>
       </div>
