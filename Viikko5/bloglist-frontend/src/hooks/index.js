@@ -7,14 +7,19 @@ export const useField = (type) => {
     setValue(event.target.value)
   }
 
+  // const reset = () => {
+  //   setValue('')
+  // }
+
   return {
     type,
     value,
     onChange
+    //reset
   }
 }
 
-// tänne voi lisätä lisää näitä
-// export const useAnotherHook = () => {
+//tänne voi lisätä lisää näitä
+// export const useAnother = (type) => {
 
 // }

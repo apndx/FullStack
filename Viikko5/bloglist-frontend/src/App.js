@@ -7,16 +7,13 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 import BlogForm from './components/BlogForm'
 import  { useField } from './hooks'
-//import userService from './services/users'
+
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  //const [newBlog, setBlog] = useState(null)
   const [notification, setNotification] = useState(null)
   const username = useField('text')
   const password = useField('password')
-  //const [username, setUsername] = useState('')
-  //const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [newTitle, setTitle] = useState('')
   const [newAuthor, setAuthor] = useState('')
@@ -137,13 +134,6 @@ const App = () => {
           <button onClick={() => setLoginVisible(true)}>log in</button>
         </div>
         <div style={showWhenVisible}>
-          {/* <LoginForm
-            username={username}
-            password={password}
-            handleUsernameChange={({ target }) => setUsername(target.value)}
-            handlePasswordChange={({ target }) => setPassword(target.value)}
-            handleSubmit={handleLogin}
-          /> */}
           <form onSubmit={handleLogin}>
           username:
             <input {...username} />
