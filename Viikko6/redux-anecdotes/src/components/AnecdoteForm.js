@@ -11,7 +11,9 @@ const AnecdoteForm = (props) => {
         event.target.anecdote.value = ''        
     }
     return (
+
       <form onSubmit = {create }>
+        <h2>create new</h2>
             <div><input name= "anecdote"/></div>
             <button type = "submit"> create</button>
       </form>
