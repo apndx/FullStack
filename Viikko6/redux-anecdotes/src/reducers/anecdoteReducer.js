@@ -33,7 +33,7 @@ const reducer = (state = initialState, action) => {
       console.log('anectoChange', anecToChange)
       const changedAnec = { ...anecToChange, votes: (anecToChange.votes+1)}
       console.log('changedAnec', changedAnec)
-    return state.map(anec => anec.id !== id ? anec : changedAnec )  
+    return state.map(anec => anec.id !== id ? anec : changedAnec ).sort(function(a,b) {return b.votes-a.votes})  
 
     default:
   return state
