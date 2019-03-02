@@ -52,7 +52,6 @@ export const createAnecdote = (content) => {
 }
 
 export const voteAnecdote = (id) => {
-
       return {
           type: 'VOTE',
           data: {id}
