@@ -4,6 +4,13 @@ import { changeNotification } from '../reducers/notificationReducer';
 
 const AnecdoteList = ({store}) => {
 
+    console.log('anecdotelistin store', store)
+
+    const anecdotesToShow = 
+      !store.getState().filter ?
+      store.getState().anecdotes :
+      store.getState().anecdotes.filter(anecdote => anecdote.content.includes(store.getState().filter))
+
     const vote = (id, content) => {
         console.log('vote', id)
         store.dispatch(
@@ -19,7 +26,7 @@ const AnecdoteList = ({store}) => {
 
     return(
         <div>
-            {store.getState().anecdotes.map(anecdote =>
+            {anecdotesToShow.map(anecdote =>
               <div key={anecdote.id}>
               <div>
                   {anecdote.content}
