@@ -4,14 +4,17 @@ import { changeNotification } from '../reducers/notificationReducer';
 
 const AnecdoteList = ({store}) => {
 
-    const vote = (id) => {
+    const vote = (id, content) => {
         console.log('vote', id)
         store.dispatch(
           voteAnecdote(id),          
         )
         store.dispatch(
-          changeNotification('anecdote voted')
+          changeNotification(`'${content} ' has now been voted`)
         )
+        setTimeout(() => {
+          store.dispatch(changeNotification(null))  
+        }, 5000)
       }
 
     return(
@@ -23,7 +26,7 @@ const AnecdoteList = ({store}) => {
               </div>
               <div>
                   has {anecdote.votes}
-                  <button onClick={() => vote(anecdote.id)}>vote</button>
+                  <button onClick={() => vote(anecdote.id, anecdote.content)}>vote</button>
               </div>
               </div>
           )}

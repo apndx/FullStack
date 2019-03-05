@@ -10,8 +10,12 @@ const AnecdoteForm = (props) => {
             
         )
         props.store.dispatch(
-            changeNotification('anecdote added')
+            changeNotification(`'${event.target.anecdote.value} ' has now been added`)
         )
+        setTimeout(() => {
+            props.store.dispatch(changeNotification(null))  
+        }, 5000)
+
         event.target.anecdote.value = ''        
     }
     return (

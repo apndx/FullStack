@@ -1,5 +1,5 @@
 
-const notificationReducer = (state = 'Attention Folks', action) => {
+const notificationReducer = (state = null, action) => {
     console.log('state now: ', state)
     console.log('action', action)
     switch(action.type) { 
@@ -14,7 +14,7 @@ export const changeNotification = notification => {
   return {
     type: 'SET_NOTIFICATION',
     notification
-  }
+  } 
 }
 
 
