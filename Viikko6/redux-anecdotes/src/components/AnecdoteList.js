@@ -7,11 +7,6 @@ const AnecdoteList = (props) => {
 
     console.log('anecdotelistin props', props)
 
-    const anecdotesToShow = 
-      !props.filter ?
-      props.anecdotes :
-      props.anecdotes.filter(anecdote => anecdote.content.includes(props.filter))
-
     const vote = (id, content) => {
         console.log('vote', id)
         props.voteAnecdote(id)
@@ -21,10 +16,9 @@ const AnecdoteList = (props) => {
         }, 5000)
       }
 
-    console.log('anecdotelistin anecdotestoshow', anecdotesToShow)  
     return(
         <div>
-            {anecdotesToShow.map(anecdote =>
+            {props.visibleAnecdotes.map(anecdote =>
               <div key={anecdote.id}>
               <div>
                   {anecdote.content}
@@ -39,11 +33,18 @@ const AnecdoteList = (props) => {
     )
 }
 
+const anecdotesToShow = ({ anecdotes, filter }) => {
+  if (!filter) {
+    return anecdotes
+  }
+  return anecdotes.filter(anecdote => anecdote.content.includes(filter))
+}
+
+
 const mapStateToProps = (state) => {
   console.log(state)
   return {
-    anecdotes: state.anecdotes,
-    filter: state.filter
+    visibleAnecdotes: anecdotesToShow(state)
   }
 }
 
