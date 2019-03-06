@@ -2,20 +2,21 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { createAnecdote } from '../reducers/anecdoteReducer'
 import { changeNotification } from '../reducers/notificationReducer'
+import anecdoteService from '../services/anecdotes'
 
 const AnecdoteForm = (props) => {
     const create = async (event) => {
         event.preventDefault()
-        props.createAnecdote(event.target.anecdote.value)
-        props.changeNotification(`'${event.target.anecdote.value} ' has now been added`)
+        const content = event.target.anecdote.value
+        event.target.anecdote.value = ''   
+        const newAnecdote = await anecdoteService.createNew(content)
+        props.createAnecdote(newAnecdote.content)        
+        props.changeNotification(`'${newAnecdote.content} ' has now been added`)        
         setTimeout(() => {
             props.changeNotification(null)  
-        }, 5000)
-
-        event.target.anecdote.value = ''        
+        }, 5000)  
     }
     return (
-
       <form onSubmit = {create }>
         <h2>create new</h2>
             <div>
@@ -44,4 +45,5 @@ const ConnectedAnecdoteForm = connect(
     mapStateToProps,
     mapDispatchToProps
     )(AnecdoteForm)
+
 export default ConnectedAnecdoteForm

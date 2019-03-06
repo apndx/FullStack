@@ -22,6 +22,3 @@ ReactDOM.render(
     <App />
   </Provider>,
 document.getElementById('root'))
-
-////renderApp()
-////store.subscribe(renderApp)

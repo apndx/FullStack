@@ -15,4 +15,10 @@ const Notification = (props) => {
   )
 }
 
-export default connect()(Notification)
+const mapStateToProps = (state) => {
+  return {
+      notification: state.notification
+  }
+}
+
+export default connect(mapStateToProps)(Notification)
