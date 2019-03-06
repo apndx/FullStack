@@ -9,8 +9,8 @@ const AnecdoteList = (props) => {
 
     const anecdotesToShow = 
       !props.filter ?
-      props.anecdote :
-      props.anecdote.filter(anecdote => anecdote.content.includes(this.props.filter))
+      props.anecdotes :
+      props.anecdotes.filter(anecdote => anecdote.content.includes(props.filter))
 
     const vote = (id, content) => {
         console.log('vote', id)
@@ -42,7 +42,7 @@ const AnecdoteList = (props) => {
 const mapStateToProps = (state) => {
   console.log(state)
   return {
-    anecdote: state.anecdotes,
+    anecdotes: state.anecdotes,
     filter: state.filter
   }
 }
