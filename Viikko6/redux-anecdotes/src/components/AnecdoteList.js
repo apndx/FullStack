@@ -5,15 +5,11 @@ import { changeNotification } from '../reducers/notificationReducer';
 
 const AnecdoteList = (props) => {
 
-    console.log('anecdotelistin props', props)
-
+    //console.log('anecdotelistin props', props)
     const vote = (id, content) => {
-        console.log('vote', id)
+        //console.log('vote', id)
         props.voteAnecdote(id)
-        props.changeNotification(`'${content} ' has now been voted`)
-        setTimeout(() => {
-          props.changeNotification(null)  
-        }, 5000)
+        props.changeNotification(`'${content} ' has now been voted`, 5)
       }
 
     return(
@@ -42,7 +38,7 @@ const anecdotesToShow = ({ anecdotes, filter }) => {
 
 
 const mapStateToProps = (state) => {
-  console.log(state)
+  //console.log(state)
   return {
     visibleAnecdotes: anecdotesToShow(state)
   }

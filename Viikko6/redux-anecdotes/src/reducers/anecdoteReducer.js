@@ -1,19 +1,19 @@
 import anecdoteService from '../services/anecdotes'
 
 const anecdoteReducer = (state = [], action) => {
-  console.log('state now: ', state)
-  console.log('action', action)
+  //console.log('state now: ', state)
+  //console.log('action', action)
   switch(action.type) { 
     case 'NEW' :
       return [...state, action.data]
     case 'VOTE':
       const id = action.data.id
-      console.log('voten action data id', id)
-      console.log('voten saama state', state)
+      //console.log('voten action data id', id)
+      //console.log('voten saama state', state)
       const anecToChange = state.find(n => n.id === id)
-      console.log('anectoChange', anecToChange)
+      //console.log('anectoChange', anecToChange)
       const changedAnec = { ...anecToChange, votes: (anecToChange.votes+1)}
-      console.log('changedAnec', changedAnec)
+      //console.log('changedAnec', changedAnec)
       return state.map(anec => anec.id !== id ? anec : changedAnec ).sort(function(a,b) {return b.votes-a.votes})  
     case 'INIT_ANECDOTES':
       return action.data
