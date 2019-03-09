@@ -62,29 +62,6 @@ const App = ( props ) => {
     }
   }
 
-  // const deleteBlog = async id => {
-  //   console.log('deleteblogin props', props)
-  //   console.log('deleteblogin saama id', id)
-
-  //   const blog = blogs.find(n => n.id ===id)
-  //   console.log('deleteblogin hakema blog', blog)
-
-  //   if (window.confirm('Do you wish to delete this blog?')) {
-
-  //     try {
-  //       const answer = await blogService.del(id)
-  //       console.log('deleteblogin saama answer', answer)
-  //       setBlogs(blogs.filter(b => b.id !==id))
-  //       //setNotification(`' ${answer.title} ' blog has now been deleted`)
-  //       props.changeNotification(`' ${blog.title} ' blog has now been deleted`, 5)
-
-  //     } catch(exception) {
-  //       console.log('deleteblogin catchaama exeption', exception)
-  //       props.changeNotification(`The blog '${blog.title}' is not added by you and can't be deleted`, 5)
-  //     }
-  //   }
-  // }
-
   const like = (id, title) => {
     props.likeBlog(id)
     props.changeNotification(`'${title}' has now been liked`, 5)
