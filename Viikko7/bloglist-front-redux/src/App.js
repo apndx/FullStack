@@ -16,14 +16,14 @@ import { Form, Button } from 'react-bootstrap'
 
 const App = ( props ) => {
   const [blogs, setBlogs] = useState([])
-  const [notification, setNotification] = useState(null)
+  const [notification] = useState(null)
   const username = useField('text')
   const password = useField('password')
   const [user, setUser] = useState(null)
   const [newTitle, setTitle] = useState('')
   const [newAuthor, setAuthor] = useState('')
   const [newUrl, setUrl] = useState('')
-  const [likes, setLikes] = useState(0)
+  const [likes] = useState(0)
   const [loginVisible, setLoginVisible] = useState(false)
   const blogFormRef = React.createRef()
 

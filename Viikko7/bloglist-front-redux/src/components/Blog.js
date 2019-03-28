@@ -4,10 +4,12 @@ import { Button } from 'react-bootstrap'
 
 const blogStyle = {
   paddingTop: 10,
-  paddingLeft: 2,
+  paddingLeft: 5,
+  paddingDown: 5,
   border: 'solid',
   borderWidth: 1,
-  marginBottom: 5
+  marginBottom: 5,
+  borderRadius: 5
 }
 
 const Blog = ({ blog, onLike, onDelete }) => (

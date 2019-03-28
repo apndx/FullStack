@@ -1,5 +1,6 @@
+/*eslint-disable */
 let token = null
-
+/*eslint-enable */
 const setToken = newToken => {
   token = `bearer ${newToken}`
 }

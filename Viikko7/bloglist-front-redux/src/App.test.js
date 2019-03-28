@@ -71,7 +71,7 @@ describe('<App />', () => {
     //component.debug()
 
     const blogs = await component.container.querySelectorAll('.blog')
-
+    console.log('apptest blogs', blogs)
     expect(component.container).toHaveTextContent(
       'The testest Blog'
     )

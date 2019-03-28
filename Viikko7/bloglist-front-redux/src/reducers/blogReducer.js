@@ -6,12 +6,16 @@ const blogReducer = (state = [], action) => {
   console.log('blogreducerin saama state', state)
   switch(action.type) {
   case 'LIKE':
+  /*eslint-disable */
     const id = action.data.id
     const blogToChange = state.find(n => n.id ===id)
     const changedBlog = { ...blogToChange, likes: (blogToChange.likes+1) }
+    /*eslint-enable */
     return state.map(blog => blog.id !== id ? blog : changedBlog ).sort(function(a,b) {return b.likes-a.likes})
   case 'DELETE':
+    /*eslint-disable */
     const delId = action.data.id
+    /*eslint-enable */
     return state.filter(n => n.id !== delId).sort(function(a,b) {return b.likes-a.likes})
   case 'INIT_BLOGS':
     return action.data.sort(function(a,b) {return b.likes-a.likes})
