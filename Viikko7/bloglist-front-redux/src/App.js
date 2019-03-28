@@ -12,6 +12,7 @@ import { changeNotification } from './reducers/notificationReducer'
 import { initializeBlogs } from './reducers/blogReducer'
 import { likeBlog } from './reducers/blogReducer'
 import { deleteBlog } from './reducers/blogReducer'
+import { Form, Button } from 'react-bootstrap'
 
 const App = ( props ) => {
   const [blogs, setBlogs] = useState([])
@@ -91,20 +92,20 @@ const App = ( props ) => {
     return (
       <div>
         <div style={hideWhenVisible}>
-          <button onClick={() => setLoginVisible(true)}>log in</button>
+          <Button variant="outline-info" onClick={() => setLoginVisible(true)}>log in</Button>
         </div>
         <div style={showWhenVisible}>
-          <form onSubmit={handleLogin}>
-          username:
-            <input {...username} />
-            <br/>
-          password:
-            <input {...password} />
-            <div>
-              <button type = "submit">login</button>
-            </div>
-          </form>
-          <button onClick={() => setLoginVisible(false)}>cancel</button>
+          <Form onSubmit={handleLogin}>
+            <Form.Group>
+              <Form.Label>username:</Form.Label>
+              <Form.Control {...username} />
+              <br/>
+              <Form.Label>password:</Form.Label>
+              <Form.Control {...password} />
+              <Button variant="outline-info" type = "submit">login</Button>
+            </Form.Group>
+          </Form>
+          <Button variant="outline-info" onClick={() => setLoginVisible(false)}>cancel</Button>
         </div>
       </div>
     )
@@ -164,11 +165,11 @@ const App = ( props ) => {
   }
 
   return (
-    <div>
+    <div className = "container">
       <h2>Blogs</h2>
       <Notification message ={notification} />
       <p>{user.name} logged in</p>
-      <button onClick={logout}>logout</button>
+      <Button variant="outline-info" onClick={logout}>logout</Button>
       {blogForm()}
       <h2>BlogList</h2>
       {props.blogs.map(blog =>

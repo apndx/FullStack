@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Form, Button } from 'react-bootstrap'
 
 const BlogForm = ({ onSubmit, handleTitleChange, handleAuthorChange, handleUrlChange, newTitle, newAuthor, newUrl }) => {
   return (
@@ -33,7 +34,7 @@ const BlogForm = ({ onSubmit, handleTitleChange, handleAuthorChange, handleUrlCh
             onChange={handleUrlChange}
           />
         </div>
-        <button>save</button>
+        <Button variant="outline-info">save</Button>
       </form>
     </div>
   )

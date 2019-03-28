@@ -1,5 +1,6 @@
 import React from 'react'
 import Togglable from './Togglable'
+import { Button } from 'react-bootstrap'
 
 const blogStyle = {
   paddingTop: 10,
@@ -17,8 +18,8 @@ const Blog = ({ blog, onLike, onDelete }) => (
       <div className="additionals">
         <Togglable buttonLabel="show">
           <p>{blog.url} -- likes: {blog.likes}
-            <button onClick={onLike}>like</button>
-            <button onClick={onDelete}>delete</button></p>
+            <Button variant="outline-info" onClick={onLike}>like</Button>
+            <Button variant="outline-info" onClick={onDelete}>delete</Button></p>
           <p> added by {blog.user.name}</p>
         </Togglable>
       </div>
