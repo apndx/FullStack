@@ -1,24 +1,43 @@
 import blogService from '../services/blogs'
-//import notificationReducer from './notificationReducer'
+//import changeNotification from './notificationReducer'
 
-const blogReducer = (state = [], action) => {
+const initialState = {
+  blogs: []
+}
+
+
+const blogReducer = (state = initialState, action) => {
   console.log('blogreducerin saama action', action)
   console.log('blogreducerin saama state', state)
   switch(action.type) {
   case 'LIKE':
   /*eslint-disable */
     const id = action.data.id
-    const blogToChange = state.find(n => n.id ===id)
+    const blogToChange = state.blogs.find(n => n.id ===id)
     const changedBlog = { ...blogToChange, likes: (blogToChange.likes+1) }
     /*eslint-enable */
-    return state.map(blog => blog.id !== id ? blog : changedBlog ).sort(function(a,b) {return b.likes-a.likes})
+    return {
+      ...state,
+      blogs: state.blogs.map(blog => blog.id !== id ? blog : changedBlog ).sort(function(a,b) {return b.likes-a.likes})
+    }
   case 'DELETE':
     /*eslint-disable */
     const delId = action.data.id
     /*eslint-enable */
-    return state.filter(n => n.id !== delId).sort(function(a,b) {return b.likes-a.likes})
+    return {
+      ...state,
+      blogs: state.blogs.filter(n => n.id !== delId).sort(function(a,b) {return b.likes-a.likes})
+    }
+  case 'ADD':
+    return {
+      ...state,
+      blogs: state.blogs.concat(action.data)
+    }
   case 'INIT_BLOGS':
-    return action.data.sort(function(a,b) {return b.likes-a.likes})
+    return  {
+      ...state,
+      blogs: action.data.sort(function(a,b) {return b.likes-a.likes})
+    }
   default:
     return state
   }
@@ -26,10 +45,22 @@ const blogReducer = (state = [], action) => {
 
 export const initializeBlogs = () => {
   return async dispatch => {
-    const anecdotes = await blogService.getAll()
+    const blogs = await blogService.getAll()
     dispatch({
       type: 'INIT_BLOGS',
-      data: anecdotes
+      data: blogs
+    })
+  }
+}
+
+export const addBlogRedux = (blogObject) => {
+  console.log('reduxin addfúnkkarin blogobjekti', blogObject)
+  return async dispatch => {
+    const newBlog = await blogService.create(blogObject)
+    console.log('addreduxin newBlog', newBlog)
+    dispatch({
+      type: 'ADD',
+      data: newBlog
     })
   }
 }
@@ -62,16 +93,22 @@ export const deleteBlog = (id) => {
       //try {
       const answer = await blogService.del(id)
       console.log('deleteblogin saama answer', answer)
-      //initializeBlogs(blogs.filter(b => b.id !==id))
       dispatch({
         type: 'DELETE',
         data: { id }
       })
-      // } catch(exception) {
-      //   console.log('deleteblogin catchaama exeption', exception)
-      //   notificationReducer.changeNotification(`The blog '${blogToDelete.title}' is not added by you and can't be deleted`, 5)
+      //changeNotification(`' ${title}' blog has now been deleted`, 5)
+      //initializeBlogs(blogs.filter(b => b.id !==id))
+      // } catch (error) {
+      //   if (error===401) {
+      //     //changeNotification(`The blog '${title}' is not added by you and can't be deleted`, 5)
+      //   }
       // }
     }
+    // } catch(exception) {
+    //   console.log('deleteblogin catchaama exeption', exception)
+    //   notificationReducer.changeNotification(`The blog '${blogToDelete.title}' is not added by you and can't be deleted`, 5)
+    // }
   }
 }
 

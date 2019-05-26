@@ -1,15 +1,24 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
+import { composeWithDevTools } from 'redux-devtools-extension'
 
 import notificationReducer from './reducers/notificationReducer'
 import blogReducer from './reducers/blogReducer'
+import loginReducer from './reducers/loginReducer'
 
 const reducer = combineReducers({
   notification: notificationReducer,
-  blogs: blogReducer
+  blogs: blogReducer,
+  user: loginReducer
 })
 
-const store = createStore(reducer, applyMiddleware(thunk))
+const store = createStore(
+  reducer,
+  composeWithDevTools(
+    applyMiddleware(thunk)
+  )
+)
+
 console.log('storen store', store)
 
 export default store

@@ -23,6 +23,7 @@ const del = (id) => {
 }
 
 const create = async newObject => {
+  console.log('servicen create objekti', newObject)
   const config = {
     headers: { Authorization: token },
   }
