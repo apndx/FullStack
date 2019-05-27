@@ -4,12 +4,14 @@ import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 //import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
+import UserList from './components/UserList'
 import  { useField } from './hooks'
 import { connect } from 'react-redux'
 import { changeNotification } from './reducers/notificationReducer'
 import { deleteBlog, likeBlog, addBlogRedux, initializeBlogs } from './reducers/blogReducer'
 import { Form, Button } from 'react-bootstrap'
 import { login, logoutRedux, initLoggedUser } from './reducers/actioncreators/loginActions'
+import { initializeUsers } from './reducers/userReducer'
 
 const App = ( props ) => {
   const [notification] = useState(null)
@@ -21,7 +23,7 @@ const App = ( props ) => {
   const [likes] = useState(0)
   const [loginVisible, setLoginVisible] = useState(false)
   const blogFormRef = React.createRef()
-  const { user, blogs } = props
+  const { user, blogs, users } = props
 
 
   useEffect(() => {
@@ -30,6 +32,10 @@ const App = ( props ) => {
 
   useEffect(() => {
     props.initLoggedUser()
+  }, [])
+
+  useEffect(() => {
+    props.initializeUsers()
   }, [])
 
   const handleLogin = async (event) => {
@@ -66,6 +72,7 @@ const App = ( props ) => {
     const showWhenVisible = { display: loginVisible ? '' : 'none' }
 
     return (
+
       <div>
         <div style={hideWhenVisible}>
           <Button variant="outline-info" onClick={() => setLoginVisible(true)}>log in</Button>
@@ -148,6 +155,8 @@ const App = ( props ) => {
       <p>{user.name} logged in</p>
       <Button variant="outline-info" onClick={logout}>logout</Button>
       {blogForm()}
+      <h2>UserList</h2>
+      <UserList users = {users} />
       <h2>BlogList</h2>
       {blogs.map(blog =>
         <Blog
@@ -169,7 +178,8 @@ const mapStateToProps = (state) => {
   return {
     notification: state.notification,
     blogs: state.blogs.blogs,
-    user: state.user.user
+    user: state.user.user,
+    users: state.users.users
   }
 }
 
@@ -181,7 +191,8 @@ const mapDispatchToProps = {
   addBlogRedux,
   login,
   logoutRedux,
-  initLoggedUser
+  initLoggedUser,
+  initializeUsers
 }
 
 const ConnectedApp = connect(

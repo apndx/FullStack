@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
   adult: Boolean,
   blogs: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Blog' }]
 })
-  
+
 userSchema.statics.format = (user) => {
   return {
     id: user.id,
