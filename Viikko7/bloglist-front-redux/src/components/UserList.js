@@ -23,14 +23,12 @@ const UserList = ({ users }) => (
     <tbody>
       {users.map(blogUser =>
         <tr style={blogStyle} key={blogUser.id}>
-          <td>{blogUser.name} </td><td>{blogUser.blogs.length} </td>
+          <td><a href={`https://localhost:3000/users/${blogUser.id}`}
+          >{blogUser.name}  </a></td><td>{blogUser.blogs.length} </td>
         </tr>
       )}
     </tbody>
   </Table>
 )
-
-
-
 
 export default UserList
