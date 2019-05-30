@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import Blog from './components/Blog'
+import BlogList from './components/BlogList'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import AddBlog from './components/AddBlog'
 import UserList from './components/UserList'
+import SingleUser from './components/SingleUser'
 import { connect } from 'react-redux'
 import { changeNotification } from './reducers/notificationReducer'
 import { deleteBlog, likeBlog, initializeBlogs } from './reducers/blogReducer'
@@ -23,8 +24,7 @@ import {
 
 const App = ( props ) => {
   const [notification] = useState(null)
-  const { user, blogs, users } = props
-
+  const { user, users } = props
 
   useEffect(() => {
     props.initializeBlogs()
@@ -33,17 +33,6 @@ const App = ( props ) => {
   useEffect(() => {
     props.initializeUsers()
   }, [])
-
-  const like = (id, title) => {
-    props.likeBlog(id)
-    props.changeNotification(`'${title}' has now been liked`, 5)
-  }
-
-  const delBlog = (id, title) => {
-    props.deleteBlog(id)
-    props.changeNotification(`' ${title}' blog has now been deleted`, 5)
-    props.initializeBlogs()
-  }
 
   const logout = async (event) => {
     console.log('logging out')
@@ -66,35 +55,27 @@ const App = ( props ) => {
 
   return (
     <div className = "container">
-      {/* <Router>
+      <Router>
         <div>
-          <Link  to="/users">users</Link>
-          {user
+          {/* <Link  to="/users">users</Link> */}
+          {/* {user
             ? <em>{user} logged in</em>
             : <Link to="/login">login</Link>
-          }
+          } */}
         </div>
-        <Route exact path="/" render={() => <App />} /> */}
-      <Router>
-        <Route path = "/users/:id" />
+        {/* <Route exact path="/" render={() => <App />} /> */}
+        <Router>
+          <Route path = "/users/:id" render={() => <SingleUser userId ={matchMedia.params.id}/>} />
+        </Router>
+        <h2>Blogs</h2>
+        <Notification message ={notification} />
+        <p>{user.name} logged in</p>
+        <Button variant="outline-info" onClick={logout}>logout</Button>
+        <AddBlog props = {props}/>
+        <h2>UserList</h2>
+        <UserList users = {users} />
+        <BlogList props = {props} />
       </Router>
-      <h2>Blogs</h2>
-      <Notification message ={notification} />
-      <p>{user.name} logged in</p>
-      <Button variant="outline-info" onClick={logout}>logout</Button>
-      <AddBlog props={props}/>
-      <h2>UserList</h2>
-      <UserList users = {users} />
-      <h2>BlogList</h2>
-      {blogs.map(blog =>
-        <Blog
-          key={blog.id}
-          blog={blog}
-          onLike= {() => like(blog.id, blog.title)}
-          onDelete = {() => delBlog(blog.id, blog.title)}
-        />
-      )}
-      {/* </Router> */}
     </div>
   )
 }

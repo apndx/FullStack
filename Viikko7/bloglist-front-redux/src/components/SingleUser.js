@@ -1,14 +1,15 @@
 import React, { useEffect } from 'react'
-import { initializeSingleUser } from './reducers/userReducer'
+import { initializeSingleUser } from '../reducers/userReducer'
 import { connect } from 'react-redux'
 
-useEffect(() => {
-  initializeSingleUser()
-}, [])
 
 
 const SingleUser = ( props ) => {
   const { singleUser } = props
+
+  useEffect(() => {
+    initializeSingleUser()
+  }, [])
 
   if ( props.user === undefined) {
     return null

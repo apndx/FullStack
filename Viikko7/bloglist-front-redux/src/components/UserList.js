@@ -1,5 +1,11 @@
 import React from 'react'
 import { Table } from 'react-bootstrap'
+import {
+  BrowserRouter as Router,
+  Route, Link, Redirect, withRouter
+} from 'react-router-dom'
+
+
 
 const blogStyle = {
   paddingTop: 10,
@@ -20,11 +26,19 @@ const UserList = ({ users }) => (
         <th>Blogs added by user </th>
       </tr>
     </thead>
-    <tbody>
+    {/* <tbody>
       {users.map(blogUser =>
         <tr style={blogStyle} key={blogUser.id}>
           <td><a href={`https://localhost:3000/users/${blogUser.id}`}
           >{blogUser.name}  </a></td><td>{blogUser.blogs.length} </td>
+        </tr>
+      )}
+    </tbody> */}
+    <tbody>
+      {users.map(blogUser =>
+        <tr style={blogStyle} key={blogUser.id}>
+          <td><Link to={`users/${blogUser.id}`}>{blogUser.name}</Link></td>
+          <td>{blogUser.blogs.length} </td>
         </tr>
       )}
     </tbody>

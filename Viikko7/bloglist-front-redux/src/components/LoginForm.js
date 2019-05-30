@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { login, initLoggedUser } from '../reducers/actioncreators/loginActions'
 import { Form, Button } from 'react-bootstrap'
 import  { useField } from '../hooks'
 
 const LoginForm = (props) => {
-
   const username = useField('text')
   const password = useField('password')
   const [loginVisible, setLoginVisible] = useState(false)
@@ -49,11 +47,10 @@ const LoginForm = (props) => {
   )
 }
 
-LoginForm.propTypes = {
-  handleLogin: PropTypes.func.isRequired,
-}
-
-const mapStateToProps = () => {
+const mapStateToProps = (state) => {
+  return {
+    user: state.user.user
+  }
 }
 
 const mapDispatchToProps = {
