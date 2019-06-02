@@ -3,6 +3,7 @@ import Blog from '../components/Blog'
 import { connect } from 'react-redux'
 import { changeNotification } from '../reducers/notificationReducer'
 import { deleteBlog, likeBlog, initializeBlogs } from '../reducers/blogReducer'
+import AddBlog from '../components/AddBlog'
 
 const BlogList = ({ props }) => {
   const { blogs } = props
@@ -21,6 +22,7 @@ const BlogList = ({ props }) => {
   return (
     <div>
       <h2>BlogList</h2>
+      <AddBlog props = {props}/>
       {blogs.map(blog =>
         <Blog
           key={blog.id}

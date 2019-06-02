@@ -1,47 +1,27 @@
-import React, { useEffect } from 'react'
-import { initializeSingleUser } from '../reducers/userReducer'
-import { connect } from 'react-redux'
+import React from 'react'
+import { Table } from 'react-bootstrap'
 
-
-
-const SingleUser = ( props ) => {
-  const { singleUser } = props
-
-  useEffect(() => {
-    initializeSingleUser()
-  }, [])
-
-  if ( props.user === undefined) {
+const SingleUser = ({ singleUser }) => {
+  if (singleUser === undefined) {
     return null
   }
 
   return (
-    <div>
-      <h2>{singleUser.name}</h2>
-      <h3>Added blogs</h3>
-      {singleUser.blogs.map(blog =>
-        <tr key={blog.id}>
-          <td>{blog.name} </td>
+    <Table>
+      <thead>
+        <tr>
+          <th><h2>Blogs added by {singleUser.name} </h2></th>
         </tr>
-      )}
-    </div>
+      </thead>
+      <tbody>
+        {singleUser.blogs.map(blog =>
+          <tr key={blog._id}>
+            <td>{blog.title} </td>
+          </tr>
+        )}
+      </tbody>
+    </Table>
   )
 }
 
-const mapStateToProps = (state) => {
-  return {
-    singleUser: state.user.singleUser
-  }
-}
-
-const mapDispatchToProps = {
-  initializeSingleUser
-}
-
-const ConnectedSingleUser = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SingleUser)
-
-
-export default ConnectedSingleUser
+export default SingleUser

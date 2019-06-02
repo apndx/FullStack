@@ -47,19 +47,13 @@ const LoginForm = (props) => {
   )
 }
 
-const mapStateToProps = (state) => {
-  return {
-    user: state.user.user
-  }
-}
-
 const mapDispatchToProps = {
   login,
   initLoggedUser
 }
 
 const ConnectedLoginForm= connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(LoginForm)
 
