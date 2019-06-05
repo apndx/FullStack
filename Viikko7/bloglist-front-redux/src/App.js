@@ -4,6 +4,7 @@ import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import UserList from './components/UserList'
 import SingleUser from './components/SingleUser'
+import NavBar from './components/NavBar'
 import { connect } from 'react-redux'
 import { changeNotification } from './reducers/notificationReducer'
 import { deleteBlog, likeBlog, initializeBlogs } from './reducers/blogReducer'
@@ -14,6 +15,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 const Home = ({ user, notification, logout }) => (
   <div>
+    <NavBar/>
     <h2>Blogs</h2>
     <Notification message ={notification} />
     <p>{user.name} logged in</p>
@@ -54,7 +56,6 @@ const App = ( props ) => {
 
   return (
     <div className = "container">
-
       <Router>
         <Route path = "/" render={() => <Home user={user} logout={logout} notification={notification} />} />
         <Route exact path = "/users" render={() => <UserList users = {users} />} />

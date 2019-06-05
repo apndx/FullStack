@@ -19,5 +19,9 @@ h2 {
   }
 
   a{
+    color: rgb(30, 206, 230);
+  }
+
+  a:hover {
     color: green;
   }

@@ -7,7 +7,7 @@ const blogStyle = {
   paddingLeft: 5,
   paddingDown: 5,
   border: 'solid',
-  borderWidth: 1,
+  borderWidth: 0,
   marginBottom: 5,
   borderRadius: 5
 }
