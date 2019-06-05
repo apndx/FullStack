@@ -1,5 +1,5 @@
 h2 {
-    color: green;
+    color: grey;
   }
   
   code {
@@ -9,8 +9,7 @@ h2 {
   
 
   .notification{
-    color: rgb(9, 10, 10);
-    background: lightgrey;
+    color: rgb(30, 206, 230);
     font-size: 20px;
     border-style: solid;
     border-radius: 5px;
@@ -18,10 +17,14 @@ h2 {
     margin-bottom: 10px;
   }
 
+  .nav{
+    color: rgb(30, 206, 230);
+  }
+
   a{
     color: rgb(30, 206, 230);
   }
 
   a:hover {
-    color: green;
+    color: grey
   }

@@ -8,18 +8,15 @@ import NavBar from './components/NavBar'
 import { connect } from 'react-redux'
 import { changeNotification } from './reducers/notificationReducer'
 import { deleteBlog, likeBlog, initializeBlogs } from './reducers/blogReducer'
-import { Button } from 'react-bootstrap'
 import { logoutRedux } from './reducers/actioncreators/loginActions'
 import { initializeUsers } from './reducers/userReducer'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 const Home = ({ user, notification, logout }) => (
   <div>
-    <NavBar/>
+    <NavBar user={user} logout={logout}/>
     <h2>Blogs</h2>
     <Notification message ={notification} />
-    <p>{user.name} logged in</p>
-    <Button variant="outline-info" onClick={logout}>logout</Button>
   </div>
 )
 

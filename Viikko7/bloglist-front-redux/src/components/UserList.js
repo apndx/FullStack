@@ -18,7 +18,7 @@ const UserList = ({ users }) => {
     <Table>
       <thead>
         <tr>
-          <th><h2>UserList</h2></th>
+          <th>Users</th>
           <th>Blogs added by user </th>
         </tr>
       </thead>

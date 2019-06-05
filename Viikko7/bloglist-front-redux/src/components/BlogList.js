@@ -21,7 +21,6 @@ const BlogList = ({ props }) => {
 
   return (
     <div>
-      <h2>BlogList</h2>
       <AddBlog props = {props}/>
       {blogs.map(blog =>
         <Blog
