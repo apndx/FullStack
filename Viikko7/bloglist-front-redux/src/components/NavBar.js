@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Navbar, Button, Nav } from 'react-bootstrap'
+import { Navbar, Button } from 'react-bootstrap'
 
 const NavBar = ({ user, logout }) => {
   const padding = { padding: 10 }
