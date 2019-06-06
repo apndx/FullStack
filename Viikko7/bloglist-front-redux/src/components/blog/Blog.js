@@ -1,5 +1,6 @@
 import React from 'react'
-import Togglable from './Togglable'
+import Togglable from '../common/Togglable'
+import { Link } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
 
 const blogStyle = {
@@ -16,7 +17,7 @@ const Blog = ({ blog, onLike, onDelete }) => (
 
   <div style = {blogStyle}>
     <div className="details">
-      {blog.title} -- {blog.author}
+      {/* <Link to={`/blogs/${blog.id}`}>{blog.title} -- {blog.author}</Link> */}
       <div className="additionals">
         <Togglable buttonLabel="show">
           <p>{blog.url} -- likes: {blog.likes}

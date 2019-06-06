@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
-import { login, initLoggedUser } from '../reducers/actioncreators/loginActions'
+import { login, initLoggedUser } from '../../reducers/actioncreators/loginActions'
 import { Form, Button } from 'react-bootstrap'
-import  { useField } from '../hooks'
+import  { useField } from '../../hooks'
 
 const LoginForm = (props) => {
   const username = useField('text')

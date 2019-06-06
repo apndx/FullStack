@@ -1,9 +1,9 @@
 import React from 'react'
-import Blog from '../components/Blog'
+import Blog from './Blog'
 import { connect } from 'react-redux'
-import { changeNotification } from '../reducers/notificationReducer'
-import { deleteBlog, likeBlog, initializeBlogs } from '../reducers/blogReducer'
-import AddBlog from '../components/AddBlog'
+import { changeNotification } from '../../reducers/notificationReducer'
+import { deleteBlog, likeBlog, initializeBlogs } from '../../reducers/blogReducer'
+import AddBlog from './AddBlog'
 
 const BlogList = ({ props }) => {
   const { blogs } = props

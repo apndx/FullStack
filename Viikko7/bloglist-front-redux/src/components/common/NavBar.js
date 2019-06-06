@@ -24,5 +24,4 @@ const NavBar = ({ user, logout }) => {
   )
 }
 
-
 export default NavBar

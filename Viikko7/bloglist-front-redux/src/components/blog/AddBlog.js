@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import BlogForm from './BlogForm'
-import Togglable from './Togglable'
-import { deleteBlog, likeBlog, addBlogRedux, initializeBlogs } from '../reducers/blogReducer'
-import { changeNotification } from '../reducers/notificationReducer'
+import Togglable from '../common/Togglable'
+import { deleteBlog, likeBlog, addBlogRedux, initializeBlogs } from '../../reducers/blogReducer'
+import { changeNotification } from '../../reducers/notificationReducer'
 import { connect } from 'react-redux'
 
 const AddBlog = ( props ) => {
