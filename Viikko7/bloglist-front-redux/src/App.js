@@ -15,9 +15,12 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 
 const App = ( props ) => {
-  const { user, users, notification } = props
+  const { user, users, blogs, notification } = props
   const singleUser =(id) => {
     return users.find(n => n.id === id)
+  }
+  const singleBlog =(id) => {
+    return blogs.find(n => n.id === id)
   }
 
   useEffect(() => {
@@ -51,7 +54,7 @@ const App = ( props ) => {
         <Route exact path = "/users" render={() => <UserList users = {users} />} />
         <Route exact path = "/users/:id" render={({ match }) => <SingleUser singleUser={singleUser(match.params.id)} /> } />
         <Route exact path = "/blogs" render={() => <BlogList props={props}/>} />
-        {/* <Route exact path = "/blogs/:id" render={() => <SingleBlog props={props}/>} /> */}
+        <Route exact path = "/blogs/:id" render={({ match }) => <SingleBlog singleBlog={singleBlog(match.params.id)} />} />
       </Router>
     </div>
   )

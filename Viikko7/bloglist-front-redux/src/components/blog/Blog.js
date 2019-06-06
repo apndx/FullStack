@@ -17,9 +17,9 @@ const Blog = ({ blog, onLike, onDelete }) => (
 
   <div style = {blogStyle}>
     <div className="details">
-      {/* <Link to={`/blogs/${blog.id}`}>{blog.title} -- {blog.author}</Link> */}
+      <Link to={`/blogs/${blog.id}`}>{blog.title} -- {blog.author}</Link>
       <div className="additionals">
-        <Togglable buttonLabel="show">
+        <Togglable buttonLabel="->">
           <p>{blog.url} -- likes: {blog.likes}
             <Button variant="outline-info" onClick={onLike}>like</Button>
             <Button variant="outline-info" onClick={onDelete}>delete</Button></p>
