@@ -6,17 +6,27 @@ import { deleteBlog, likeBlog, initializeBlogs } from '../../reducers/blogReduce
 import AddBlog from './AddBlog'
 
 const BlogList = ({ props }) => {
-  const { blogs } = props
+  const { blogs, user } = props
 
   const like = (id, title) => {
     props.likeBlog(id)
     props.changeNotification(`'${title}' has now been liked`, 5)
   }
 
+  const singleBlog =(id) => {
+    return blogs.find(n => n.id === id)
+  }
+
   const delBlog = (id, title) => {
-    props.deleteBlog(id)
-    props.changeNotification(`' ${title}' blog has now been deleted`, 5)
-    props.initializeBlogs()
+    if (window.confirm('Do you wish to delete this blog?')) {
+      if (singleBlog(id).user.username !== user.username) {
+        props.changeNotification('You can only delete your own blog entries', 5)
+      } else{
+        props.deleteBlog(id)
+        props.changeNotification(`' ${title}' blog has now been deleted`, 5)
+        props.initializeBlogs()
+      }
+    }
   }
 
   return (
@@ -38,6 +48,7 @@ const mapStateToProps = (state) => {
   return {
     notification: state.notification,
     blogs: state.blogs.blogs,
+    user: state.user.user
   }
 }
 

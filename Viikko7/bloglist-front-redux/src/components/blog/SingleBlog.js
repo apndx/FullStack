@@ -1,4 +1,5 @@
 import React from 'react'
+import { Table } from 'react-bootstrap'
 
 const blogStyle = {
   paddingTop: 10,
@@ -22,6 +23,16 @@ const SingleBlog = ({ singleBlog }) => {
         <h2>{singleBlog.title} by {singleBlog.author}</h2>
         <p>{singleBlog.url} -- likes: {singleBlog.likes}</p>
         <p> added by {singleBlog.user.name}</p>
+        <h2>Comments</h2>
+        <Table>
+          <tbody>
+            {singleBlog.comments.map(comment =>
+              <tr style={blogStyle} key={singleBlog.comments.indexOf(comment)}>
+                <td>{comment}</td>
+              </tr>
+            )}
+          </tbody>
+        </Table>
       </div>
     </div>
   )

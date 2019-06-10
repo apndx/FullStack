@@ -1,10 +1,8 @@
 import blogService from '../services/blogs'
-//import changeNotification from './notificationReducer'
 
 const initialState = {
   blogs: []
 }
-
 
 const blogReducer = (state = initialState, action) => {
   console.log('blogreducerin saama action', action)
@@ -79,14 +77,11 @@ export const likeBlog = (id) => {
 
 export const deleteBlog = (id) => {
   return async dispatch => {
-    if (window.confirm('Do you wish to delete this blog?')) {
-      const answer = await blogService.del(id)
-      console.log('deleteblogin saama answer', answer)
-      dispatch({
-        type: 'DELETE',
-        data: { id }
-      })
-    }
+    await blogService.del(id)
+    dispatch({
+      type: 'DELETE',
+      data: { id }
+    })
   }
 }
 
