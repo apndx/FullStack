@@ -19,6 +19,7 @@ blogsRouter.get('/', async (request, response) => {
 
 })
 
+// saving a new blog
 blogsRouter.post('/', async (request, response) => {
 
   const body = request.body
@@ -40,7 +41,8 @@ blogsRouter.post('/', async (request, response) => {
       author: body.author,
       url: body.url,
       likes: body.likes,
-      user: user._id
+      user: user._id,
+      comments: []
     })
 
     if (blog.likes === undefined) {
@@ -95,7 +97,8 @@ blogsRouter.put('/:id', async (request, response) => {
     author: body.author,
     url: body.url,
     likes: body.likes,
-    user: body.user
+    user: body.user,
+    comments: body.comments
   }
   const updatedBlog = await Blog.findByIdAndUpdate({ _id: request.params.id }, blog, { new: true }).populate('user', { username: 1, name: 1 })
 
@@ -105,5 +108,30 @@ blogsRouter.put('/:id', async (request, response) => {
     response.json(Blog.format(updatedBlog))
   }
 })
+
+// blogsRouter.post('/:id/comments', async (request, response) => {
+//   const body = request.body
+//   const comment = request.body.comment
+//   const comments = request.body.comments.concat(comment)
+//   try {
+
+//   }
+
+
+//   const blog = {
+//     title: body.title,
+//     author: body.author,
+//     url: body.url,
+//     likes: body.likes,
+//     user: body.user,
+//     comments: user.blogs = user.blogs.concat(savedBlog._id)
+//   }
+//   const updatedBlog = await Blog.findByIdAndUpdate({ _id: request.params.id }, blog, { new: true }).populate('user', { username: 1, name: 1 })
+//   if (!updatedBlog) {
+//     return response.status(400).send({ error: 'malformatted id' })
+//   } else {
+//     response.json(Blog.format(updatedBlog))
+//   }
+// })
 
 module.exports = blogsRouter

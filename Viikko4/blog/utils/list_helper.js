@@ -13,8 +13,7 @@ const totalLikes = (blogs) => {
 }
 
 const favourite = (blogs) => {
-    
-  const likes = blogs.map(blog => blog.likes) 
+  const likes = blogs.map(blog => blog.likes)
   console.log(likes)
   const likeIndex = blogs.indexOf(Math.max.apply(null, likes))
 
