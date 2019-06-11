@@ -36,6 +36,17 @@ const blogReducer = (state = initialState, action) => {
       ...state,
       blogs: action.data.sort(function(a,b) {return b.likes-a.likes})
     }
+  case 'COMMENT':
+    /*eslint-disable */
+      const commentId = action.data.id
+      const comment = action.data.comment
+      const blogToComment= state.blogs.find(n => n.id === commentId)
+      const commentedBlog = { ...blogToComment, comments: blogToComment.comments.concat(comment) }
+    /*eslint-enable */
+    return {
+      state,
+      blogs: state.blogs.map(blog => blog.id !== id ? blog : commentedBlog ).sort(function(a,b) {return b.likes-a.likes})
+    }
   default:
     return state
   }
@@ -81,6 +92,19 @@ export const deleteBlog = (id) => {
     dispatch({
       type: 'DELETE',
       data: { id }
+    })
+  }
+}
+
+export const addComment = (id, comment) => {
+  return async dispatch => {
+    const blogs = await blogService.getAll()
+    const blogToComment = blogs.find(n => n.id === id)
+    const commentedBlog = { ...blogToComment, comments: blogToComment.comments.concat(comment) }
+    await blogService.update(id, commentedBlog)
+    dispatch({
+      type: 'COMMENT',
+      data: { id, comment }
     })
   }
 }
