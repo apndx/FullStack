@@ -1,5 +1,6 @@
 import axios from 'axios'
-const baseUrl = '/api/login'
+//const baseUrl = '/api/login'
+const baseUrl = {BACKEND_URL}
 
 //const login = async (credentials) => {  //old
 const login = async credentials => {
