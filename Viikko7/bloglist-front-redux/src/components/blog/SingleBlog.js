@@ -13,7 +13,6 @@ const blogStyle = {
 }
 
 const SingleBlog = ({ singleBlog }) => {
-  console.log('singleblogin singleblog', singleBlog)
   if (singleBlog === undefined) {
     return null
   }

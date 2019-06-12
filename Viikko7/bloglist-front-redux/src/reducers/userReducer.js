@@ -5,8 +5,6 @@ const initialState = {
 }
 
 const userReducer = (state = initialState, action) => {
-  console.log('userreducerin saama action', action)
-  console.log('userreducerin saama state', state)
   switch(action.type) {
   case 'INIT_USERS':
     return  {

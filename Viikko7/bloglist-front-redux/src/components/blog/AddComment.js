@@ -24,14 +24,11 @@ const AddComment = ( props ) => {
 
   const addComment = async (event) => {
     event.preventDefault()
-    console.log('nappia painettu', event.target)
-    console.log('lisäyksessä comment: ', newComment)
     commentFormRef.current.toggleVisibility()
     if (newComment === '') {
       props.changeNotification('Empty comments are not allowed', 5)
     } else {
-      const commentedBlog = await props.addComment(singleBlog.id, newComment)
-      console.log('commented blog', commentedBlog)
+      await props.addComment(singleBlog.id, newComment)
       setComment('')
       props.changeNotification(` '${singleBlog.title}' blog commented`, 5)
       props.initializeBlogs()

@@ -13,17 +13,14 @@ const getAll = () => {
 }
 
 const del = (id) => {
-  console.log('del servicen saama id', id)
   const config = {
     headers: { Authorization: token },
   }
   const request =axios.delete( `${baseUrl}/${id}`, config)
-  //const request = axios.get(`${baseUrl}/${id}`)
   return request.then(response => response.data)
 }
 
 const create = async newObject => {
-  console.log('servicen create objekti', newObject)
   const config = {
     headers: { Authorization: token },
   }
@@ -35,7 +32,6 @@ const create = async newObject => {
 
 const update = (id, newObject) => {
   const request = axios.put(`${baseUrl}/${id}`, newObject)
-  console.log('axioksen palauttama data', request)
   return request.then(response => response.data)
 }
 

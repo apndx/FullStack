@@ -31,8 +31,6 @@ const AddBlog = ( props ) => {
 
   const addBlog = async (event) => {
     event.preventDefault()
-    console.log('nappia painettu', event.target)
-    console.log('lisäyksessä title author ja url: ', newTitle, newAuthor, newUrl)
     blogFormRef.current.toggleVisibility()
     const blogObject = {
       title: newTitle,
@@ -45,9 +43,7 @@ const AddBlog = ( props ) => {
     if (newTitle ==='' || newAuthor === '' || newUrl === '') {
       props.changeNotification('Fill all details first', 5)
     } else {
-      console.log('bloglisäyksen saama user', blogObject.blogUser)
-      const addedBlog = await props.addBlogRedux(blogObject)
-      console.log('bloglisäyksen addedblog', addedBlog)
+      await props.addBlogRedux(blogObject)
       setTitle('')
       setAuthor('')
       setUrl('')
