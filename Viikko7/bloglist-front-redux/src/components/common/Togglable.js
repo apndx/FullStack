@@ -1,4 +1,4 @@
-import React, { useState, useImperativeMethods } from 'react'
+import React, { useState, useImperativeHandle } from 'react'
 import PropTypes from 'prop-types'
 import { Button } from 'react-bootstrap'
 
@@ -12,7 +12,7 @@ const Togglable = React.forwardRef((props, ref) => {
     setVisible(!visible)
   }
 
-  useImperativeMethods(ref, () => {
+  useImperativeHandle(ref, () => {
     return {
       toggleVisibility
     }
