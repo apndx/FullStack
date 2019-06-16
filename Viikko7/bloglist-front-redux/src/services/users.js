@@ -1,9 +1,9 @@
 import axios from 'axios'
-//const baseUrl = '/api/users'
+const url = '/api/users'
 /*eslint-disable */
 let token = null
+const baseUrl = BACKEND_URL + url
 /*eslint-enable */
-const baseUrl = {BACKEND_URL}
 
 const getAll = () => {
   const request = axios.get(baseUrl)

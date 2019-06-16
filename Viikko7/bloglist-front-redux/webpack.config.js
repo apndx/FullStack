@@ -2,6 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 
 const config = ( env, argv ) => {
+  console.log('argv', argv.mode)
 
   const backend_url = argv.mode === 'production'
     ? 'http://localhost:9001'

@@ -1,7 +1,8 @@
 import axios from 'axios'
-//const baseUrl = '/api/blogs'
-const baseUrl = {BACKEND_URL}
-
+const url = '/api/blogs'
+/*eslint-disable */
+const baseUrl = BACKEND_URL + url
+/*eslint-enable */
 let token = null
 
 const setToken = newToken => {

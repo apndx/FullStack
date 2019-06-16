@@ -1,8 +1,9 @@
 import axios from 'axios'
-//const baseUrl = '/api/login'
-const baseUrl = {BACKEND_URL}
+const url = '/api/login'
+/*eslint-disable */
+const baseUrl = BACKEND_URL + url
+/*eslint-enable */
 
-//const login = async (credentials) => {  //old
 const login = async credentials => {
   const response = await axios.post(baseUrl, credentials)
   return response.data
