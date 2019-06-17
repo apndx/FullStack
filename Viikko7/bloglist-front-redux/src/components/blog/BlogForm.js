@@ -15,6 +15,7 @@ const BlogForm = ({ onSubmit, handleTitleChange, handleAuthorChange, handleUrlCh
             name = "newTitle"
             value = {newTitle}
             onChange={handleTitleChange}
+            id='title'
           />
 
           <Form.Label> Author </Form.Label>
@@ -23,6 +24,7 @@ const BlogForm = ({ onSubmit, handleTitleChange, handleAuthorChange, handleUrlCh
             name = "newAuthor"
             value = {newAuthor}
             onChange={handleAuthorChange}
+            id='author'
           />
 
           <Form.Label> Url </Form.Label>
@@ -31,6 +33,7 @@ const BlogForm = ({ onSubmit, handleTitleChange, handleAuthorChange, handleUrlCh
             name = "newUrl"
             value = {newUrl}
             onChange={handleUrlChange}
+            id='url'
           />
 
           <Button variant="outline-info" type="submit">save</Button>

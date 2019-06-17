@@ -5,6 +5,7 @@ const initialState = {
 }
 
 const blogReducer = (state = initialState, action) => {
+  //console.log(action.type, action)
   switch(action.type) {
   case 'LIKE':
   /*eslint-disable */

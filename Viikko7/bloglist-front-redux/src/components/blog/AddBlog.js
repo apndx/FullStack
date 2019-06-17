@@ -16,7 +16,7 @@ const AddBlog = ( props ) => {
 
   const blogForm = () => (
 
-    <Togglable buttonLabel= "add new blog" ref={ blogFormRef }>
+    <Togglable buttonLabel= "add new blog" id='addBlogButton' ref={ blogFormRef }>
       <BlogForm
         onSubmit={addBlog}
         title={newTitle}

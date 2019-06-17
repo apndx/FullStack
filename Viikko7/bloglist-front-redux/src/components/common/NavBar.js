@@ -15,7 +15,7 @@ const NavBar = ({ user, logout }) => {
     <Navbar bg="dark" variant="outline-info">
       <div style={navStyle}>
         <Link style={padding} to="/">Home</Link>
-        <Link style={padding} to="/blogs">Blogs</Link>
+        <Link style={padding} to="/blogs" id='bloglink'>Blogs</Link>
         <Link style={padding} to="/users">Users</Link>
         {user.name} logged in
         <Button  variant="outline-info" onClick={logout}>logout</Button>
