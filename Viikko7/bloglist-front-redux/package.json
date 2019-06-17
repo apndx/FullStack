@@ -20,9 +20,10 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "cypress:open": "cypress open"
   },
-  "proxy": "http://localhost:9001",
+  "proxy": "http://localhost:9002",
   "browserslist": [
     ">0.2%",
     "not dead",
@@ -30,6 +31,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "cypress": "^3.3.1",
     "deep-freeze": "0.0.1",
     "enzyme": "^3.8.0",
     "enzyme-adapter-react-16": "^1.8.0",
