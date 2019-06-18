@@ -14,6 +14,7 @@ const CommentForm = ({ onSubmit, handleCommentChange, newComment }) => {
             name = "newComment"
             value = {newComment}
             onChange={handleCommentChange}
+            id='commentField'
           />
           <Button variant="outline-info" type="submit">save</Button>
         </Form.Group>

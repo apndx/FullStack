@@ -1,6 +1,6 @@
 {
-  "name": "lh5-bloglist",
-  "version": "0.1.0",
+  "name": "bloglist-by-apndx",
+  "version": "7.19.0",
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
@@ -23,7 +23,7 @@
     "lint": "eslint .",
     "cypress:open": "cypress open"
   },
-  "proxy": "http://localhost:9002",
+  "proxy": "http://localhost:9001",
   "browserslist": [
     ">0.2%",
     "not dead",

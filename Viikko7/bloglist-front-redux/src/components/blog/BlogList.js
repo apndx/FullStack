@@ -23,7 +23,7 @@ const BlogList = ({ props }) => {
         props.changeNotification('You can only delete your own blog entries', 5)
       } else{
         props.deleteBlog(id)
-        props.changeNotification(`' ${title}' blog has now been deleted`, 5)
+        props.changeNotification(`'${title}' blog has now been deleted`, 5)
         props.initializeBlogs()
       }
     }

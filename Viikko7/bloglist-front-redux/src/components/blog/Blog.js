@@ -22,7 +22,7 @@ const Blog = ({ blog, onLike, onDelete }) => (
         <Togglable buttonLabel="->">
           <p>{blog.url} -- likes: {blog.likes}
             <Button variant="outline-info" onClick={onLike}>like</Button>
-            <Button variant="outline-info" onClick={onDelete}>delete</Button></p>
+            <Button variant="outline-info" onClick={onDelete} id='delete'>delete</Button></p>
           <p> added by {blog.user.name}</p>
         </Togglable>
       </div>
