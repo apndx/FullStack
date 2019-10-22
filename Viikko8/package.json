@@ -1,0 +1,19 @@
+{
+  "name": "viikko8",
+  "version": "1.0.0",
+  "description": "FullStack GraphQL",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "watch": "nodemon index.js"
+  },
+  "author": "apndx",
+  "license": "MIT",
+  "dependencies": {
+    "apollo-server": "^2.9.7",
+    "graphql": "^14.5.8"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.4"
+  }
+}
