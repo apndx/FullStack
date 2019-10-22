@@ -2,3 +2,12 @@ query {
   bookCount
   authorCount
 }
+
+query {
+  allBooks { 
+    title 
+    author
+    published 
+    genres
+  }
+}
