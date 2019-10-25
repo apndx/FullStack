@@ -30,3 +30,10 @@ query listAllBooks {
     title
   }
 }
+
+query listAllBooksByGenre {
+  allBooks(genre: "refactoring") {
+    title
+    author
+  }
+}
