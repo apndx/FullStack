@@ -5,24 +5,29 @@ let authors = [
     name: 'Robert Martin',
     id: "afa51ab0-344d-11e9-a414-719c6709cf3e",
     born: 1952,
+    bookCount: 2
   },
   {
     name: 'Martin Fowler',
     id: "afa5b6f0-344d-11e9-a414-719c6709cf3e",
-    born: 1963
+    born: 1963,
+    bookCount: 1
   },
   {
     name: 'Fyodor Dostoevsky',
     id: "afa5b6f1-344d-11e9-a414-719c6709cf3e",
-    born: 1821
+    born: 1821,
+    bookCount: 2
   },
   { 
     name: 'Joshua Kerievsky', // birthyear not known
     id: "afa5b6f2-344d-11e9-a414-719c6709cf3e",
+    bookCount: 1
   },
   { 
     name: 'Sandi Metz', // birthyear not known
     id: "afa5b6f3-344d-11e9-a414-719c6709cf3e",
+    bookCount: 1
   },
 ]
 
@@ -92,10 +97,19 @@ const typeDefs = gql`
     genres: [String!]!
   }
 
+  type Author {
+    name: String!
+    id: ID!
+    born: Int
+    bookCount: Int
+  }
+
   type Query {
     bookCount: Int!
     authorCount: Int!
     allBooks: [Book!]!
+    findAuthor(name: String!): Author
+    allAuthors: [Author!]!
   }
 `
 
@@ -103,7 +117,10 @@ const resolvers = {
   Query: {
     bookCount: () => books.length,
     authorCount: () => authors.length,
-    allBooks: () => books
+    allBooks: () => books,
+    findAuthor: (root, args) =>
+      authors.find(author => author.name === args.name),
+    allAuthors: () => authors
   }
 }
 
@@ -115,4 +132,3 @@ const server = new ApolloServer({
 server.listen().then(({ url }) => {
   console.log(`Server ready at ${url}`)
 })
-

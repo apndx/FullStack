@@ -11,3 +11,10 @@ query {
     genres
   }
 }
+
+query {
+  allAuthors {
+    name
+    bookCount
+  }
+}
