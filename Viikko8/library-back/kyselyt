@@ -6,7 +6,7 @@ query countBooksAndAuthors{
 query listAllBooksWithDetails{
   allBooks { 
     title 
-    author
+    authorName
     published 
     genres
   }
@@ -14,13 +14,13 @@ query listAllBooksWithDetails{
 
 query listAllAuthorsWithNameAndBookCount{
   allAuthors {
-    name
+    authorName
     bookCount
   }
 }
 
 query listAllBooksByAuthor {
-  allBooks(author: "Robert Martin") {
+  allBooks(authorName: "Robert Martin") {
     title
   }
 }
@@ -34,44 +34,44 @@ query listAllBooks {
 query listAllBooksByGenre {
   allBooks(genre: "refactoring") {
     title
-    author
+    authorName
   }
 }
 
 query {
   allBooks(author: "Robert Martin", genre: "refactoring") {
     title
-    author
+    authorName
   }
 }
 
 mutation {
   addBook(
     title: "NoSQL Distilled",
-    author: "Martin Fowler",
+    authorName: "Martin Fowler",
     published: 2012,
     genres: ["database", "nosql"]
   ) {
     title,
-    author
+    authorName
   }
 }
 
 mutation {
   addBook(
     title: "Pimeyden tango",
-    author: "Reijo Mäki",
+    authorName: "Reijo Mäki",
     published: 1997,
     genres: ["crime"]
   ) {
     title,
-    author
+    authorName
   }
 }
 
 mutation {
-  editAuthorBorn(name: "Reijo Mäki", setBornTo: 1958) {
-    name
+  editAuthorBorn(authorName: "Reijo Mäki", setBornTo: 1958) {
+    authorName
     born
   }
 }
