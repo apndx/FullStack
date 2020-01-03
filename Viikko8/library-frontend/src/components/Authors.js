@@ -3,7 +3,7 @@ import React from 'react'
 //import { useApolloClient } from '@apollo/react-hooks'
 //import { gql } from 'apollo-boost'
 
-const Authors = ({show, result, client}) => {
+const Authors = ({ show, result, client }) => {
   if (!show) {
     return null
   } else if (result.loading) {
@@ -35,7 +35,6 @@ const Authors = ({show, result, client}) => {
           )}
         </tbody>
       </table>
-
     </div>
   )
 }
