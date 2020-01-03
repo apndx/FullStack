@@ -4,14 +4,14 @@ import React from 'react'
 //import { gql } from 'apollo-boost'
 
 const Authors = ({ show, result, client }) => {
-  if (!show) {
+  if (!show || result === null) {
     return null
   } else if (result.loading) {
     return <div>loading...</div>
   }
 
   const authors = result.data.allAuthors
-
+  console.log('AUTHORS', authors)
   return (
     <div>
       <h2>authors</h2>

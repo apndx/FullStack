@@ -9,7 +9,7 @@ import { Query, ApolloConsumer, Mutation } from 'react-apollo'
 const ALL_AUTHORS = gql`
 {
   allAuthors {
-    authorName,
+    authorName
     born,
     bookCount
   }
@@ -19,12 +19,14 @@ const ALL_BOOKS = gql`
 {
   allBooks {
     title,
-    authorName,
     published
+    author {
+      authorName
+    }
   }
 }
 `
-const CREATE_BOOK= gql`
+const CREATE_BOOK = gql`
 mutation createBook($title: String!, $authorName: String!, $published: Int!, $genres: [String!]!) {
   addBook(
     title: $title,
@@ -34,7 +36,10 @@ mutation createBook($title: String!, $authorName: String!, $published: Int!, $ge
   ) {
     title
     published
-    authorName
+    author {
+      authorName,
+      bookCount
+    }
   }
 }
 `
@@ -51,7 +56,7 @@ mutation addBirthYear($authorName: String!, $born: Int!) {
 `
 
 const App = () => {
-  const [page, setPage] = useState('books')
+  const [page, setPage] = useState('add')
 
   return (
     <div>
@@ -64,43 +69,43 @@ const App = () => {
 
       <ApolloConsumer>
         {(client =>
-          <Query query = {ALL_AUTHORS}>
-            {(result) => 
-                <Authors show={page === 'authors'} result={result} client ={client}/>
-           }
+          <Query query={ALL_AUTHORS}>
+            {(result) =>
+              <Authors show={page === 'authors'} result={result} client={client} />
+            }
           </Query>
-          )}
+        )}
       </ApolloConsumer>
-     
+
       <ApolloConsumer>
         {(client =>
-          <Query query = {ALL_BOOKS}>
-            {(result) => 
-                <Books show={page === 'books'} result={result} client ={client} />
-           }
+          <Query query={ALL_BOOKS}>
+            {(result) =>
+              <Books show={page === 'books'} result={result} client={client} />
+            }
           </Query>
-          )}
+        )}
       </ApolloConsumer>
 
-      <Mutation 
-      mutation={CREATE_BOOK}
-      refetchQueries={[{ query: ALL_AUTHORS }, {query: ALL_BOOKS }]}  
-      > 
-      
-      {(addBook) =>
-        <NewBook show={page === 'add'} addBook={addBook} />
-      }
-      </Mutation> 
+      <Mutation
+        mutation={CREATE_BOOK}
+        refetchQueries={[{ query: ALL_AUTHORS }, { query: ALL_BOOKS }]}
+      >
 
-      <Mutation 
-      mutation={ADD_BIRTH_YEAR}
-      refetchQueries={[{ query: ALL_AUTHORS }]}  
-      > 
-      
-      {(editAuthorBorn) =>
-        <EditAuthor show={page === 'editAuthor'} editAuthorBorn={editAuthorBorn} />
-      }
-      </Mutation> 
+        {(addBook) =>
+          <NewBook show={page === 'add'} addBook={addBook} />
+        }
+      </Mutation>
+
+      <Mutation
+        mutation={ADD_BIRTH_YEAR}
+        refetchQueries={[{ query: ALL_AUTHORS }]}
+      >
+
+        {(editAuthorBorn) =>
+          <EditAuthor show={page === 'editAuthor'} editAuthorBorn={editAuthorBorn} />
+        }
+      </Mutation>
 
     </div>
   )
