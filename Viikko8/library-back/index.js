@@ -1,4 +1,4 @@
-const { ApolloServer, gql } = require('apollo-server')
+const { ApolloServer, gql, UserInputError } = require('apollo-server')
 const mongoose = require('mongoose')
 const Author = require('./models/author')
 const Book = require('./models/book')
@@ -67,13 +67,13 @@ const resolvers = {
     bookCount: () => Books.collection.countDocuments(),
     authorCount: () => Author.collections.countDocuments(),
     allBooks: (root, args) => {
-      //if (args.authorName) {
-      //  return Books.findOne({ authorName: args.authorName }),    
-      //} else if (args.genre) {
-      //  return books.filter(book => book.genres.includes(args.genre))
-      //} else {
-      return Book.find({})
-      //}
+      if (args.authorName) {
+        return Books.collections.find({ authorName: args.authorName })
+      } else if (args.genre) {
+        return Books.collections.find({ genre: args.genre })
+      } else {
+        return Book.find({})
+      }
     },
     findAuthor: (root, args) =>
       Author.findOne({ authorName: args.authorName }),
@@ -84,12 +84,24 @@ const resolvers = {
   Mutation: {
     addBook: async (root, args) => {
 
+      if (args.title.length < 3 || args.authorName.length < 3) {
+        throw new UserInputError('Title or author name is too short', {
+          invalidArgs: args,
+        })
+      }
+
+      const existingBook = await Book.find({ title: args.title})
+
+      if (existingBook) {
+        throw new UserInputError('A book with this title has already been added', {
+          invalidArgs: args,
+        })
+      }
+
       const existingAuthor = await Author.findOne({ authorName: args.authorName })
 
       if (existingAuthor) {
-        console.log('ADD BOOK EXISTING AUTH', existingAuthor)
         existingAuthor.bookCount = existingAuthor.bookCount + 1
-        console.log('ADD BOOK EXISTING AUTH BOOKS', existingAuthor.bookCount)
         try {
           await existingAuthor.save()
         } catch (error) {
@@ -106,11 +118,9 @@ const resolvers = {
             invalidArgs: args,
           })
         }
-        console.log('ADD BOOKING BOOK', book)
         return book
       } else {
         const author = new Author({ authorName: args.authorName, bookCount: 1 })
-        console.log('ADD BOOKING NEW AUTH', author)
         try {
           await author.save()
         }
@@ -132,31 +142,40 @@ const resolvers = {
       }
 
     },
-    addAuthor: (root, args) => {
+    addAuthor: async (root, args) => {
       const author = new Author({ ...args, bookCount: 0 })
-      console.log('ADD AUTHOR', author)
-      //try {
-      //  await author.save()
-      // } catch (error) {
-      //   throw new UserInputError(error.message, {
-      //     invalidArgs: args,
-      //   })
-      // }
-      return author.save()
+      try {
+        await author.save()
+      } catch (error) {
+        throw new UserInputError(error.message, {
+          invalidArgs: args,
+        })
+      }
+      return author
     },
     addToAuthorBookCount: async (root, args) => {
       const authorHasOneMoreBook = await Author.findOne({ authorName: args.authorName })
-      authorHasOneMoreBook.bookCount = authorHasOneMoreBook.bookCount + 1
-      return authorHasOneMoreBook.save()
+      try {
+        authorHasOneMoreBook.bookCount = authorHasOneMoreBook.bookCount + 1
+        await authorHasOneMoreBook.save()
+      } catch (error) {
+        throw new UserInputError(error.message, {
+          invalidArgs: args,
+        })
+      }
+      return authorHasOneMoreBook
     },
     editAuthorBorn: async (root, args) => {
       const editedAuthor = await Author.findOne({ authorName: args.authorName })
-      if (editedAuthor) {
+      try {
         editedAuthor.born = args.born
-        console.log('EDIT BORN AUTH', editedAuthor)
-        return editedAuthor.save()
+        await editedAuthor.save()
+      } catch (error) {
+        throw new UserInputError(error.message, {
+          invalidArgs: args,
+        })
       }
-      return null
+      return editedAuthor
     }
   }
 }
