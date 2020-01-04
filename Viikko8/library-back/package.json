@@ -1,5 +1,5 @@
 {
-  "name": "viikko8",
+  "name": "library-back",
   "version": "1.0.0",
   "description": "FullStack GraphQL",
   "main": "index.js",
@@ -11,8 +11,10 @@
   "license": "MIT",
   "dependencies": {
     "apollo-server": "^2.9.7",
+    "bcryptjs": "^2.4.3",
     "dotenv": "^8.2.0",
     "graphql": "^14.5.8",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.8.4",
     "mongoose-unique-validator": "^2.0.3"
   },
