@@ -1,5 +1,4 @@
 const { ApolloServer, gql } = require('apollo-server')
-const uuid = require('uuid/v1')
 const mongoose = require('mongoose')
 const Author = require('./models/author')
 const Book = require('./models/book')
@@ -77,7 +76,7 @@ const resolvers = {
       //}
     },
     findAuthor: (root, args) =>
-      Author.findOne({ name: args.name }),
+      Author.findOne({ authorName: args.authorName }),
     allAuthors: () => {
       return Author.find({})
     }
@@ -86,11 +85,18 @@ const resolvers = {
     addBook: async (root, args) => {
 
       const existingAuthor = await Author.findOne({ authorName: args.authorName })
-      console.log('ADD BOOK EXISTING AUTH', existingAuthor)
-    
+
       if (existingAuthor) {
+        console.log('ADD BOOK EXISTING AUTH', existingAuthor)
         existingAuthor.bookCount = existingAuthor.bookCount + 1
-        console.log('NYT ON EXISTING AUTH', existingAuthor)
+        console.log('ADD BOOK EXISTING AUTH BOOKS', existingAuthor.bookCount)
+        try {
+          await existingAuthor.save()
+        } catch (error) {
+          throw new UserInputError(error.message, {
+            invalidArgs: args,
+          })
+        }
         const book = new Book({ ...args, author: existingAuthor })
         try {
           await book.save()
@@ -138,17 +144,17 @@ const resolvers = {
       // }
       return author.save()
     },
-    addToAuthorBookCount: (root, args) => {
-      const author = authors.find(author => author.authorName === args.authorName)
-      const authorHasOneMoreBook = { ...author, bookCount: author.bookCount + 1 }
-      return authorHasOneMoreBook
+    addToAuthorBookCount: async (root, args) => {
+      const authorHasOneMoreBook = await Author.findOne({ authorName: args.authorName })
+      authorHasOneMoreBook.bookCount = authorHasOneMoreBook.bookCount + 1
+      return authorHasOneMoreBook.save()
     },
-    editAuthorBorn: (root, args) => {
-      const author = authors.find(author => author.authorName === args.authorName)
-      const authorWithBorn = { ...author, born: args.born }
-      if (author) {
-        authors = authors.map(a => a.authorName === args.authorName ? authorWithBorn : a)
-        return authorWithBorn
+    editAuthorBorn: async (root, args) => {
+      const editedAuthor = await Author.findOne({ authorName: args.authorName })
+      if (editedAuthor) {
+        editedAuthor.born = args.born
+        console.log('EDIT BORN AUTH', editedAuthor)
+        return editedAuthor.save()
       }
       return null
     }
