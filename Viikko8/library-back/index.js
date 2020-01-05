@@ -77,11 +77,12 @@ const typeDefs = gql`
     ): Book,
     createUser(
       username: String!
+      password: String!
       favoriteGenre: String!
     ): User
     login(
       username: String!
-      passwordHash: String!
+      password: String!
     ): Token
   }
 `
@@ -123,8 +124,7 @@ const resolvers = {
       }
 
       const existingBook = await Book.find({ title: args.title })
-
-      if (existingBook) {
+      if (existingBook.length > 0) {
         throw new UserInputError('A book with this title has already been added', {
           invalidArgs: args,
         })
@@ -232,7 +232,7 @@ const resolvers = {
       const user = await User.findOne({ username: args.username })
       const passwordCorrect = user === null ?
         false :
-        await bcrypt.compare(body.password, user.passwordHash)
+        await bcrypt.compare(args.password, user.passwordHash)
 
       if (!(user && passwordCorrect)) {
         throw new UserInputError("wrong credentials")

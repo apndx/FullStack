@@ -41,7 +41,6 @@ const EditAuthor = (props) => {
         </div>
         <button type='submit'>add the birthyear </button>
       </form>
-
     </div>
   )
 }

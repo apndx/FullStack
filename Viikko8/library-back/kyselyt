@@ -94,3 +94,13 @@ mutation {
     born
   }
 }
+
+mutation {
+  createUser(
+    username: "user-here",
+    password: "password-here",
+    favoriteGenre: "genre-here"
+  ) {
+    username
+  }
+}
