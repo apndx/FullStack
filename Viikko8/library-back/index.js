@@ -96,7 +96,7 @@ const resolvers = {
       } else if (args.genre) {
         return Books.collections.find({ genre: args.genre })
       } else {
-        return Book.find({})
+        return Book.find({}).populate('author')
       }
     },
     findAuthor: (root, args) =>

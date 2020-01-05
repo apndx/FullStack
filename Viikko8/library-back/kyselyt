@@ -31,6 +31,17 @@ query listAllBooks {
   }
 }
 
+query listAllBooks {
+  allBooks {
+    title,
+    published,
+  	author {
+      authorName
+    }
+  }
+}
+
+
 query listAllBooksByGenre {
   allBooks(genre: "refactoring") {
     title
@@ -39,9 +50,17 @@ query listAllBooksByGenre {
 }
 
 query {
-  allBooks(author: "Robert Martin", genre: "refactoring") {
+  allBooks(authorName: "Robert Martin", genre: "refactoring") {
     title
     authorName
+  }
+}
+
+query findAuthor {
+  findAuthor(authorName: "EL James") {
+    authorName,
+    bookCount,
+    born
   }
 }
 

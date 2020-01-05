@@ -9,7 +9,7 @@ import { Query, ApolloConsumer, Mutation } from 'react-apollo'
 const ALL_AUTHORS = gql`
 {
   allAuthors {
-    authorName
+    authorName,
     born,
     bookCount
   }
@@ -19,9 +19,11 @@ const ALL_BOOKS = gql`
 {
   allBooks {
     title,
-    published
+    published,
     author {
-      authorName
+      authorName,
+      born,
+      bookCount
     }
   }
 }
