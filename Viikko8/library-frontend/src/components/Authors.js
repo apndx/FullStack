@@ -1,7 +1,4 @@
 import React from 'react'
-//import React, { useState } from 'react'
-//import { useApolloClient } from '@apollo/react-hooks'
-//import { gql } from 'apollo-boost'
 
 const Authors = ({ show, result, client }) => {
   if (!show || result === null) {

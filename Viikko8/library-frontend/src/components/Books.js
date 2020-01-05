@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Books = ({show, result, client}) => {
+const Books = ({ show, result, client }) => {
   if (!show || result === null) {
     return null
   } else if (result.loading) {

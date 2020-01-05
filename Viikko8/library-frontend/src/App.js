@@ -4,9 +4,10 @@ import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
 import EditAuthor from './components/EditAuthor'
+import Genres from './components/Genres'
 import { gql } from 'apollo-boost'
 import { Query, ApolloConsumer, Mutation } from 'react-apollo'
-import { useMutation, useApolloClient } from '@apollo/react-hooks'
+import { useQuery, useMutation, useApolloClient } from '@apollo/react-hooks'
 
 const ALL_AUTHORS = gql`
 {
@@ -18,16 +19,22 @@ const ALL_AUTHORS = gql`
 }
 `
 const ALL_BOOKS = gql`
-{
-  allBooks {
+query allBooks($genre: String){
+    allBooks(genre: $genre) {
     title,
     published,
+    genres
     author {
       authorName,
       born,
       bookCount
     }
   }
+}
+`
+const GENRES = gql`
+{ 
+  allGenres 
 }
 `
 const CREATE_BOOK = gql`
@@ -70,7 +77,10 @@ const App = () => {
   const [page, setPage] = useState('books')
   const [errorMessage, setErrorMessage] = useState(null)
   const [token, setToken] = useState(null)
+  const [genre, setGenre] = useState(null)
   const client = useApolloClient()
+  const genres = useQuery(GENRES)
+  const [books, setBooks] = useState([])
 
   const handleError = (error) => {
     setErrorMessage(error.graphQLErrors[0].message)
@@ -87,6 +97,16 @@ const App = () => {
     setToken(null)
     localStorage.clear()
     client.resetStore()
+  }
+
+  const showGenreBooks = async (genre) => {
+    console.log('SHOW GENRE BOOKS')
+    const result = await client.query({
+      query: ALL_BOOKS,
+      variables: { genre: genre }
+    })
+    setBooks(result)
+    console.log('GENREBOOK RESULT', result)
   }
 
   const errorNotification = () => errorMessage &&
@@ -124,6 +144,9 @@ const App = () => {
             </Query>
           )}
         </ApolloConsumer>
+        <Genres
+          choose={(genre) => showGenreBooks(genre)}
+          result={genres} show={page === 'books'} page={page} books={books} />
 
         <Login
           show={page === 'login'}

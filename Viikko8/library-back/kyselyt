@@ -104,3 +104,7 @@ mutation {
     username
   }
 }
+
+query allGenres{
+  allGenres
+}
