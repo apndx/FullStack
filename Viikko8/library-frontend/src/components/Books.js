@@ -1,17 +1,18 @@
 import React from 'react'
 
-const Books = ({ show, result, client }) => {
+const Books = ({ show, result, genre }) => {
+  console.log('BOOKS RESULT', result)
   if (!show || result === null) {
     return null
   } else if (result.loading) {
     return <div>loading...</div>
   }
-
+  console.log('BOOKS RESULT', result)
   const books = result.data.allBooks
   console.log('BOOKS', books)
   return (
     <div>
-      <h2>books</h2>
+<h2>books from the genre:  {genre ? genre : 'all genres'} </h2>
 
       <table>
         <tbody>

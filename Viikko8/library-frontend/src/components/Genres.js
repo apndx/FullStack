@@ -1,7 +1,6 @@
 import React from 'react'
-//import Books from './Books'
 
-const Genres = ({ page, result, choose, show, books }) => {
+const Genres = ({ result, choose, show }) => {
 
   if (!show || result === null) {
     return null
@@ -9,18 +8,19 @@ const Genres = ({ page, result, choose, show, books }) => {
     return <div>loading...</div>
   }
 
-  const genres = result.data
-  console.log('GENRES', genres)
-
   return (
     <div>
       <h2>genres</h2>
+      <div key={'all'}>
+          <button onClick={() => choose(null)} >
+            all
+          </button>
+        </div>
       {result.data.allGenres.map(genre =>
         <div key={genre}>
           <button onClick={() => choose(genre)} >
             {genre}
           </button>
-          {/* <Books show={page === 'books'} books ={books}  /> */}
         </div>
       )}
     </div>

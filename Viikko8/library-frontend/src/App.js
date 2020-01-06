@@ -5,73 +5,10 @@ import Books from './components/Books'
 import NewBook from './components/NewBook'
 import EditAuthor from './components/EditAuthor'
 import Genres from './components/Genres'
-import { gql } from 'apollo-boost'
 import { Query, ApolloConsumer, Mutation } from 'react-apollo'
 import { useQuery, useMutation, useApolloClient } from '@apollo/react-hooks'
-
-const ALL_AUTHORS = gql`
-{
-  allAuthors {
-    authorName,
-    born,
-    bookCount
-  }
-}
-`
-const ALL_BOOKS = gql`
-query allBooks($genre: String){
-    allBooks(genre: $genre) {
-    title,
-    published,
-    genres
-    author {
-      authorName,
-      born,
-      bookCount
-    }
-  }
-}
-`
-const GENRES = gql`
-{ 
-  allGenres 
-}
-`
-const CREATE_BOOK = gql`
-mutation createBook($title: String!, $authorName: String!, $published: Int!, $genres: [String!]!) {
-  addBook(
-    title: $title,
-    authorName: $authorName,
-    published: $published,
-    genres: $genres
-  ) {
-    title
-    published
-    author {
-      authorName,
-      bookCount
-    }
-  }
-}
-`
-const ADD_BIRTH_YEAR = gql`
-mutation addBirthYear($authorName: String!, $born: Int!) {
-  editAuthorBorn(
-    authorName: $authorName,
-    born: $born
-  ) {
-    authorName
-    born
-  }
-}
-`
-const LOGIN = gql`
-  mutation login($username: String!, $password: String!) {
-    login(username: $username, password: $password)  {
-      value
-    }
-  }
-  `
+import queries from './graphql/queries'
+import mutations from './graphql/mutations'
 
 const App = () => {
   const [page, setPage] = useState('books')
@@ -79,8 +16,7 @@ const App = () => {
   const [token, setToken] = useState(null)
   const [genre, setGenre] = useState(null)
   const client = useApolloClient()
-  const genres = useQuery(GENRES)
-  const [books, setBooks] = useState([])
+  const genres = useQuery(queries.GENRES)
 
   const handleError = (error) => {
     setErrorMessage(error.graphQLErrors[0].message)
@@ -89,8 +25,12 @@ const App = () => {
     }, 10000)
   }
 
-  const [login] = useMutation(LOGIN, {
+  const [login] = useMutation(mutations.LOGIN, {
     onError: handleError
+  })
+
+  const books = useQuery(queries.ALL_BOOKS, {
+    variables: { genre }
   })
 
   const logout = () => {
@@ -99,14 +39,8 @@ const App = () => {
     client.resetStore()
   }
 
-  const showGenreBooks = async (genre) => {
-    console.log('SHOW GENRE BOOKS')
-    const result = await client.query({
-      query: ALL_BOOKS,
-      variables: { genre: genre }
-    })
-    setBooks(result)
-    console.log('GENREBOOK RESULT', result)
+  const showGenreBooks = (genre) => {
+    setGenre(genre)
   }
 
   const errorNotification = () => errorMessage &&
@@ -127,7 +61,7 @@ const App = () => {
 
         <ApolloConsumer>
           {(client =>
-            <Query query={ALL_AUTHORS}>
+            <Query query={queries.ALL_AUTHORS}>
               {(result) =>
                 <Authors show={page === 'authors'} result={result} client={client} />
               }
@@ -135,15 +69,8 @@ const App = () => {
           )}
         </ApolloConsumer>
 
-        <ApolloConsumer>
-          {(client =>
-            <Query query={ALL_BOOKS}>
-              {(result) =>
-                <Books show={page === 'books'} result={result} client={client} />
-              }
-            </Query>
-          )}
-        </ApolloConsumer>
+        <Books show={page === 'books'} result={books} genre={genre} />
+
         <Genres
           choose={(genre) => showGenreBooks(genre)}
           result={genres} show={page === 'books'} page={page} books={books} />
@@ -171,7 +98,7 @@ const App = () => {
 
         <ApolloConsumer>
           {(client =>
-            <Query query={ALL_AUTHORS}>
+            <Query query={queries.ALL_AUTHORS}>
               {(result) =>
                 <Authors show={page === 'authors'} result={result} client={client} />
               }
@@ -179,19 +106,15 @@ const App = () => {
           )}
         </ApolloConsumer>
 
-        <ApolloConsumer>
-          {(client =>
-            <Query query={ALL_BOOKS}>
-              {(result) =>
-                <Books show={page === 'books'} result={result} client={client} />
-              }
-            </Query>
-          )}
-        </ApolloConsumer>
+        <Books show={page === 'books'} result={books} genre={genre} />
+
+        <Genres
+          choose={(genre) => showGenreBooks(genre)}
+          result={genres} show={page === 'books'} page={page} books={books} />
 
         <Mutation
-          mutation={CREATE_BOOK}
-          refetchQueries={[{ query: ALL_AUTHORS }, { query: ALL_BOOKS }]}
+          mutation={mutations.CREATE_BOOK}
+          refetchQueries={[{ query: queries.ALL_AUTHORS }, { query: queries.ALL_BOOKS }]}
         >
           {(addBook) =>
             <NewBook show={page === 'add'} addBook={addBook} />
@@ -199,8 +122,8 @@ const App = () => {
         </Mutation>
 
         <Mutation
-          mutation={ADD_BIRTH_YEAR}
-          refetchQueries={[{ query: ALL_AUTHORS }]}
+          mutation={mutations.ADD_BIRTH_YEAR}
+          refetchQueries={[{ query: queries.ALL_AUTHORS }]}
         >
           {(editAuthorBorn) =>
             <EditAuthor show={page === 'editAuthor'} editAuthorBorn={editAuthorBorn} />
