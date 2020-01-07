@@ -8,7 +8,7 @@ const Authors = ({ show, result, client }) => {
   }
 
   const authors = result.data.allAuthors
-  console.log('AUTHORS', authors)
+
   return (
     <div>
       <h2>authors</h2>

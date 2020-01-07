@@ -29,8 +29,20 @@ const GENRES = gql`
 }
 `
 
+const ME = gql`
+{ 
+  me {
+    username,
+    favoriteGenre
+  }
+}
+`
+
+
+
 export default {
     ALL_AUTHORS,
     ALL_BOOKS,
-    GENRES
+    GENRES,
+    ME
 }

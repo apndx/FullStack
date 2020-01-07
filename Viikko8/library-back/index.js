@@ -110,7 +110,6 @@ const resolvers = {
       return context.currentUser
     },
     allGenres: () => {
-      console.log('ASKING FOR GENRES')
       return Book.collection.distinct( "genres" )
     }
   },

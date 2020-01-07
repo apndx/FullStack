@@ -8,7 +8,7 @@ const schema = new mongoose.Schema({
     minlength: 3
   },
   passwordHash: String,
-  favouriteGenre: String
+  favoriteGenre: String
 })
 
 module.exports = mongoose.model('User', schema)

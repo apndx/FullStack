@@ -108,3 +108,10 @@ mutation {
 query allGenres{
   allGenres
 }
+
+query findMe{
+  me {
+  username,
+  favoriteGenre
+  }
+}
