@@ -115,3 +115,18 @@ query findMe{
   favoriteGenre
   }
 }
+
+subscription bookAdded{
+  bookAdded {
+  id,
+  title,
+  author{
+    authorName,
+    born,
+    bookCount
+  }
+  published,
+  genres
+  }
+}
+  
