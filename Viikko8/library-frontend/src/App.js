@@ -6,9 +6,10 @@ import NewBook from './components/NewBook'
 import EditAuthor from './components/EditAuthor'
 import Genres from './components/Genres'
 import { Query, ApolloConsumer, Mutation } from 'react-apollo'
-import { useQuery, useMutation, useApolloClient } from '@apollo/react-hooks'
+import { useQuery, useMutation, useApolloClient, useSubscription } from '@apollo/react-hooks'
 import queries from './graphql/queries'
 import mutations from './graphql/mutations'
+import subscriptions from './graphql/subscriptions'
 
 const App = () => {
   const [page, setPage] = useState('books')
@@ -56,6 +57,12 @@ const App = () => {
       {errorMessage}
     </div>
 
+  useSubscription(subscriptions.BOOK_ADDED, {
+    onSubscriptionData: ({ subscriptionData }) => {
+      window.alert(`Book was added, title: ${subscriptionData.data.bookAdded.title}`)
+    }
+  })
+
   return (
     <div>
 
@@ -69,7 +76,7 @@ const App = () => {
         {token && <button onClick={() => recommend()}>recommendations</button>}
         {token && <button onClick={() => logout()}>logout</button>}
       </div>
-      
+
       <h1>Library of Random Collections</h1>
 
       <ApolloConsumer>

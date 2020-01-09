@@ -1,4 +1,5 @@
 import { gql } from 'apollo-boost'
+import fragments from './fragments'
 
 const CREATE_BOOK = gql`
 mutation createBook($title: String!, $authorName: String!, $published: Int!, $genres: [String!]!) {
@@ -8,14 +9,10 @@ mutation createBook($title: String!, $authorName: String!, $published: Int!, $ge
     published: $published,
     genres: $genres
   ) {
-    title
-    published
-    author {
-      authorName,
-      bookCount
-    }
+    ...BookDetails
   }
 }
+${fragments.BOOK_DETAILS}
 `
 const ADD_BIRTH_YEAR = gql`
 mutation addBirthYear($authorName: String!, $born: Int!) {
@@ -23,10 +20,10 @@ mutation addBirthYear($authorName: String!, $born: Int!) {
     authorName: $authorName,
     born: $born
   ) {
-    authorName
-    born
+    ...AuthorDetails
   }
 }
+${fragments.AUTHOR_DETAILS}
 `
 const LOGIN = gql`
   mutation login($username: String!, $password: String!) {
