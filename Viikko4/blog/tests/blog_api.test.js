@@ -3,7 +3,7 @@ const { app, server } = require('../index')
 const api = supertest(app)
 const Blog = require('../models/blog')
 const User = require('../models/user')
-const { format, initialBlogs, blogsInDb, usersInDb } = require('./test_helper')
+const { initialBlogs, blogsInDb, usersInDb } = require('./test_helper')
 
 
 describe('when there is initially some blogs saved', async () => {
@@ -14,7 +14,7 @@ describe('when there is initially some blogs saved', async () => {
 
     const blogObjects = initialBlogs.map(blog => new Blog(blog))
     const promiseArray = blogObjects.map(blog => blog.save())
-    await Promise.all(promiseArray)  
+    await Promise.all(promiseArray)
   })
 
   test('all blogs are returned as json', async () => {
@@ -26,7 +26,7 @@ describe('when there is initially some blogs saved', async () => {
       .expect('Content-Type', /application\/json/)
 
     expect(response.body.lenght).toBe(blogsInDatabase.lenght)
-    
+
     const returnedContents = response.body.map(blog => blog.title)
     blogsInDatabase.forEach(blog => {
       expect(returnedContents).toContain(blog.title)

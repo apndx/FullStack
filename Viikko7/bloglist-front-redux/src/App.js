@@ -83,8 +83,4 @@ const ConnectedApp = connect(
   mapDispatchToProps
 )(App)
 
-
 export default ConnectedApp
-
-
-

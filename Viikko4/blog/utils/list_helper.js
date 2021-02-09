@@ -1,9 +1,9 @@
-const dummy = (blogs) => {
+const dummy = () => {
   return 1
 }
 
 const totalLikes = (blogs) => {
- 
+
   const likes = blogs.map(blog => blog.likes)
 
   const reducer = (sum, item) => {

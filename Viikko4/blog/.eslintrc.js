@@ -36,4 +36,4 @@ module.exports = {
         "no-console": 0
     },
     "parser": "babel-eslint"
-};
+}

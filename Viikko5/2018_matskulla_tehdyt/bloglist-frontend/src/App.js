@@ -1,4 +1,3 @@
-//import React, { useState } from 'react'
 import React from 'react'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
@@ -43,7 +42,6 @@ class App extends React.Component {
   } 
 
   logout = async (event) => {
-    console.log('logging out')
     event.preventDefault()
     const user = null
     window.localStorage.removeItem('loggedNoteappUser')
@@ -59,12 +57,10 @@ class App extends React.Component {
   }
 
   handleLike = (howMany) => () => {
-    console.log('handleLiken saama howmany', howMany)
     this.setState({likes: howMany})
   }
 
   login = async (event) => {
-    console.log('logging in with', this.state.username, this.state.password)
     event.preventDefault()
     try {
       const user = await loginService.login({
@@ -97,9 +93,6 @@ class App extends React.Component {
         user: blog.user,
       }
 
-      console.log('likeBlogin blog', blog)
-      console.log('likeBlogin changedBlog', changedBlog)
-
       blogService
         .update(id, changedBlog)
         .then(response => {
@@ -121,7 +114,6 @@ class App extends React.Component {
 
   addBlog = (event) => {
     event.preventDefault() 
-    console.log('lisäyksessä title author ja url: ', this.state.newTitle, this.state.newAuthor, this.state.newUrl)  
       const blogObject = {
         title: this.state.newTitle,
         author: this.state.newAuthor,
@@ -132,7 +124,6 @@ class App extends React.Component {
       if (this.state.newTitle ==='' || this.state.newAuthor === '' || this.state.newUrl === '') {
         this.setState({success: `Fill all details first`})
       } else {
-        console.log('bloglisäyksen saama user', blogObject.blogUser)
         blogService 
         .create(blogObject)
         .then(newBlog => {
@@ -209,18 +200,3 @@ class App extends React.Component {
 }
 
 export default App;
-
-// hahmottelua hooksin käyttöönottoon..
-// const App = (props) => {
-//   const [blogs, setBlogs] = useState(props.blogs)
-
-
-//   return (
-//           <div>
-//             <h2>blogs</h2>
-//             {blogs.map(blog => 
-//               <Blog key={blog._id} blog={blog}/>
-//             )}
-//           </div>
-//         );
-  
