@@ -22,15 +22,15 @@ type ResultSuccess<T> = { type: 'success'; value: T };
 type ResultError = { type: 'error'; error: Error };
 type Result<T> = ResultSuccess<T> | ResultError;
 
-const parseExerciseArguments = (args: Array<string>): TrainCalculatorValues => {
-  if (args.length < 4) throw new Error('Not enough arguments');
+const parseExerciseArguments = (args: Array<string>): Result<TrainCalculatorValues> => {
+  if (args.length < 4) return { type: 'error', error: new Error('Not enough arguments') };
 
   if (args.filter(arg => isNaN(Number(arg))).length > 2) {
-    throw new Error('All provided values were not numbers!');
+    return { type: 'error', error: new Error('All provided values were not numbers!') };
   }
-    const target = Number(args[2]);
-    const hours = args.slice(3).map(arg => Number(arg));
-    return { target, hours };
+  const target = Number(args[2]);
+  const hours = args.slice(3).map(arg => Number(arg));
+  return { type: 'success', value: { target, hours } };
 };
 
 const rate = (target: number, actual: number, sum: number): Rating => {
@@ -65,9 +65,13 @@ const calculateExercise = (target: number, hours: number[]): TrainWeekSummary =>
   return summary;
 };
 
-try {
-  const { target, hours } = parseExerciseArguments(process.argv);
+
+const result: Result<TrainCalculatorValues> = parseExerciseArguments(process.argv);
+if (result.type === 'success') {
+  const target = result.value.target;
+  const hours = result.value.hours;
   console.log(calculateExercise(target, hours));
-} catch (e) {
-  console.log('Error, something bad happened, message: ', e.message);
+} else {
+  console.log('Error, something bad happened, message: ', result.error);
 }
+
