@@ -2,7 +2,7 @@ import express from 'express';
 import { calculateBmi } from './bmiCalculator';
 
 const app = express();
-const url = require('url');
+import url from 'url';
 
 app.get('/hello', (_req, res) => {
   res.send('Hello Full Stack!');
@@ -19,7 +19,7 @@ app.get('/bmi', (req, res) => {
   }
 
   const bmi = calculateBmi(height, weight);
-  const bmiResult = { weight, height, bmi }
+  const bmiResult = { weight, height, bmi };
   console.log(bmiResult);
 
   res.status(200).send(bmiResult);
