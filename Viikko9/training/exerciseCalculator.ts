@@ -18,28 +18,32 @@ interface TrainCalculatorValues {
   hours: number[];
 }
 
+type ResultSuccess<T> = { type: 'success'; value: T };
+type ResultError = { type: 'error'; error: Error };
+type Result<T> = ResultSuccess<T> | ResultError;
+
 const parseExerciseArguments = (args: Array<string>): TrainCalculatorValues => {
   if (args.length < 4) throw new Error('Not enough arguments');
 
   if (args.filter(arg => isNaN(Number(arg))).length > 2) {
     throw new Error('All provided values were not numbers!');
   }
-    const target = Number(args[2])
-    const hours = args.slice(3).map(arg => Number(arg))
-    return { target, hours }
-}
+    const target = Number(args[2]);
+    const hours = args.slice(3).map(arg => Number(arg));
+    return { target, hours };
+};
 
 const rate = (target: number, actual: number, sum: number): Rating => {
 
   if (sum >= target) {
-    return { numerical: 3, written: 'well done' }
+    return { numerical: 3, written: 'well done' };
   } else if (actual >= target) {
-    return { numerical: 3, written: 'well done' }
+    return { numerical: 3, written: 'well done' };
   } else if (sum > 1) {
-    return { numerical: 2, written: 'not too bad but could be better' }
+    return { numerical: 2, written: 'not too bad but could be better' };
   }
-  else return { numerical: 2, written: 'not quite there, next week will be better' }
-}
+  else return { numerical: 2, written: 'not quite there, next week will be better' };
+};
 
 
 const calculateExercise = (target: number, hours: number[]): TrainWeekSummary => {
@@ -56,10 +60,10 @@ const calculateExercise = (target: number, hours: number[]): TrainWeekSummary =>
     ratingDescription: rating.written,
     target,
     average
-  }
+  };
 
   return summary;
-}
+};
 
 try {
   const { target, hours } = parseExerciseArguments(process.argv);

@@ -3,24 +3,29 @@ interface BmiCalculatorValues {
   weight: number;
 }
 
+type ResultSuccess<T> = { type: 'success'; value: T };
+type ResultError = { type: 'error'; error: Error };
+type Result<T> = ResultSuccess<T> | ResultError;
 
-const parseBmiArguments = (args: Array<string>): BmiCalculatorValues => {
+const parseBmiArguments = (args: Array<string>): Result<BmiCalculatorValues> => {
   if (args.length < 4) throw new Error('Not enough arguments');
   if (args.length > 4) throw new Error('Too many arguments');
 
   if (!isNaN(Number(args[2])) && !isNaN(Number(args[3]))) {
     return {
-      height: Number(args[2]),
-      weight: Number(args[3])
-    }
+      type: 'success', value: {
+        height: Number(args[2]),
+        weight: Number(args[3])
+      }
+    };
   } else {
-    throw new Error('All provided values were not numbers!');
+    return { type: 'error', error: new Error('All provided values were not numbers!') };
   }
-}
+};
 
 
 const calculateBmi = (height: number, weight: number): string => {
-  const bmi = weight / (height / 100 * height / 100)
+  const bmi = weight / (height / 100 * height / 100);
 
   if (bmi < 15) {
     return 'Very severely underweight';
@@ -36,17 +41,18 @@ const calculateBmi = (height: number, weight: number): string => {
     return 'Obese Class I (Moderately obese)';
   } else if (bmi < 40 && bmi > 35) {
     return 'Obese Class II (Severely obese)';
-  } else return 'Obese Class III (Very severely obese)'
-}
+  } else return 'Obese Class III (Very severely obese)';
+};
 
 if (process.argv.length > 2) {
-  try {
-    const { height, weight } = parseBmiArguments(process.argv);
+  const result: Result<BmiCalculatorValues> = parseBmiArguments(process.argv);
+  if (result.type === 'success') {
+    const height = result.value.height;
+    const weight = result.value.weight;
     console.log(calculateBmi(height, weight));
-  } catch (e) {
-    console.log('Error, something bad happened, message: ', e.message);
+  } else {
+    console.log('Error, something bad happened, message: ', result.error);
   }
 }
 
-
-export { calculateBmi }
+export { calculateBmi };
