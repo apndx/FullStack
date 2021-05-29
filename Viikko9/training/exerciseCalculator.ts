@@ -13,7 +13,7 @@ interface Rating {
   written: string;
 }
 
-interface TrainCalculatorValues {
+export interface TrainCalculatorValues {
   target: number;
   hours: number[];
 }
@@ -65,13 +65,15 @@ const calculateExercise = (target: number, hours: number[]): TrainWeekSummary =>
   return summary;
 };
 
-
-const result: Result<TrainCalculatorValues> = parseExerciseArguments(process.argv);
-if (result.type === 'success') {
-  const target = result.value.target;
-  const hours = result.value.hours;
-  console.log(calculateExercise(target, hours));
-} else {
-  console.log('Error, something bad happened, message: ', result.error);
+if (process.argv.length > 2) {
+  const result: Result<TrainCalculatorValues> = parseExerciseArguments(process.argv);
+  if (result.type === 'success') {
+    const target = result.value.target;
+    const hours = result.value.hours;
+    console.log(calculateExercise(target, hours));
+  } else {
+    console.log('Error, something bad happened, message: ', result.error);
+  }
 }
 
+export { calculateExercise };
