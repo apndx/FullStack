@@ -3,15 +3,15 @@ import { Diagnose } from '../types';
 
 const diagnoses: Array<Diagnose> = diagnoseData;
 
-const getEntries = () => {
+const getDiagnoses = () => {
     return diagnoses;
   };
   
-  const addEntry = () => {
+  const addDiagnose = () => {
     return null;
   };
   
   export default {
-    getEntries,
-    addEntry
+    getEntries: getDiagnoses,
+    addDiagnose
   };
