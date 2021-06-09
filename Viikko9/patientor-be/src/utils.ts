@@ -1,7 +1,5 @@
-import { Patient, Gender, PatientFields } from './types';
-import { v1 as uuid } from 'uuid'
-import { FinnishSSN } from 'finnish-ssn'
-
+import { NewPatient, Gender, PatientFields } from './types';
+import { FinnishSSN } from 'finnish-ssn';
 
 const isString = (text: unknown): text is string => {
   return typeof text === 'string' || text instanceof String;
@@ -45,7 +43,7 @@ const parseDate = (date: unknown): string => {
 };
 
 const isSsn = (ssn: string): boolean => {
-  const isValid = FinnishSSN.validate(ssn)
+  const isValid = FinnishSSN.validate(ssn);
   return isValid;
 };
 
@@ -56,10 +54,9 @@ const parseSsn = (ssn: unknown): string => {
   return ssn;
 };
 
-const toNewPatient = ({ name, dateOfBirth, ssn, gender, occupation }: PatientFields): Patient => {
+export const toNewPatient = ({ name, dateOfBirth, ssn, gender, occupation }: PatientFields): NewPatient => {
 
-  const patient: Patient = {
-    id: uuid(),
+  const newPatient: NewPatient = {
     name: parseName(name),
     dateOfBirth: parseDate(dateOfBirth),
     ssn: parseSsn(ssn),
@@ -67,7 +64,5 @@ const toNewPatient = ({ name, dateOfBirth, ssn, gender, occupation }: PatientFie
     occupation: parseOccupation(occupation)
   };
 
-  return patient;
+  return newPatient;
 };
-
-export default toNewPatient;

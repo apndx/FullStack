@@ -2,7 +2,7 @@ export interface Diagnose {
     code: string,
     name: string,
     latin?: string
-};
+}
 
 export interface Patient {
     id: string,
@@ -11,7 +11,7 @@ export interface Patient {
     ssn: string,
     gender: Gender,
     occupation: string
-};
+}
 
 
 export enum Gender {
@@ -22,6 +22,6 @@ export enum Gender {
 
 export type NonSensitivePatient = Omit<Patient, 'ssn'>;
 
-export type NewPatient = Omit<Patient, 'id'>
+export type NewPatient = Omit<Patient, 'id'>;
 
 export type PatientFields = { name : unknown, dateOfBirth: unknown, ssn: unknown, gender: unknown, occupation: unknown };

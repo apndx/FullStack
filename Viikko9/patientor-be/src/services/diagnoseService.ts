@@ -12,6 +12,6 @@ const getDiagnoses = () => {
   };
   
   export default {
-    getEntries: getDiagnoses,
+    getDiagnoses,
     addDiagnose
   };

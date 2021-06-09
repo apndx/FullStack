@@ -1,20 +1,27 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import express from 'express';
-import patientService from '../services/patientService'
+import patientService from '../services/patientService';
+import { Patient, NewPatient } from '../types';
+import { toNewPatient } from '../utils';
 
 const router = express.Router();
 
-router.get('/', (_req, res) => {
-    console.log('Patient list requested');
-    res.send(patientService.getNonSensitivePatients());
+router.get('/', (_req: express.Request, res: express.Response) => {
+  console.log('Patient list requested');
+  res.send(patientService.getNonSensitivePatients());
 });
 
-router.post('/', (req, res) => {
-    console.log('Adding a new patient');
-    const { name, dateOfBirth, ssn, gender, occupation } = req.body;
-    const newPatient = patientService.addPatient({
-        name, dateOfBirth, ssn, gender, occupation
-    })
-    res.json(newPatient);
+router.post('/', (req: express.Request, res: express.Response) => {
+  console.log('Adding a new patient');
+  try {
+    const newPatient: NewPatient = toNewPatient(req.body);
+    const patient: Patient = patientService.addPatient(newPatient);
+    res.json(patient);
+  } catch (e) {
+    res.status(400).send(e.message);
+  }
+
+
 });
 
 export default router;
