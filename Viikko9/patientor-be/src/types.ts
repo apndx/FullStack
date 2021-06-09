@@ -5,12 +5,23 @@ export interface Diagnose {
 };
 
 export interface Patient {
- id: string,
- name: string,
- dateOfBirth: string,
- ssn: string,
- gender: string,
- occupation: string
+    id: string,
+    name: string,
+    dateOfBirth: string,
+    ssn: string,
+    gender: Gender,
+    occupation: string
 };
 
 
+export enum Gender {
+    Female = 'female',
+    Male = 'male',
+    Other = 'other'
+}
+
+export type NonSensitivePatient = Omit<Patient, 'ssn'>;
+
+export type NewPatient = Omit<Patient, 'id'>
+
+export type PatientFields = { name : unknown, dateOfBirth: unknown, ssn: unknown, gender: unknown, occupation: unknown };
