@@ -54,14 +54,27 @@ const parseSsn = (ssn: unknown): string => {
   return ssn;
 };
 
-export const toNewPatient = ({ name, dateOfBirth, ssn, gender, occupation }: PatientFields): NewPatient => {
+const isArray = (entries: unknown): entries is Array<string> => {
+  return entries instanceof String;
+};
+
+const parseEntries = (entries: unknown): string[] => {
+  if (!entries || !isArray(entries)) {
+    return [];
+  }
+  return entries;
+};
+
+
+export const toNewPatient = ({ name, dateOfBirth, ssn, gender, occupation, entries }: PatientFields): NewPatient => {
 
   const newPatient: NewPatient = {
     name: parseName(name),
     dateOfBirth: parseDate(dateOfBirth),
     ssn: parseSsn(ssn),
     gender: parseGender(gender),
-    occupation: parseOccupation(occupation)
+    occupation: parseOccupation(occupation),
+    entries: parseEntries(entries)
   };
 
   return newPatient;
