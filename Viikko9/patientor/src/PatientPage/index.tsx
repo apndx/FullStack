@@ -3,7 +3,7 @@ import axios from "axios";
 import { Container } from "semantic-ui-react";
 import { Patient } from "../types";
 import { apiBaseUrl } from "../constants";
-import { useStateValue } from "../state";
+import { useStateValue, setPatient } from "../state";
 import { useParams } from "react-router-dom";
 import { defineGenderIcon } from "../utils";
 import 'semantic-ui-css/semantic.min.css';
@@ -23,7 +23,7 @@ const PatientPage = () => {
           const { data: patient } = await axios.get<Patient>(
             `${apiBaseUrl}/patients/${id}`
           );
-          dispatch({ type: "SET_PATIENT", payload: patient });
+          dispatch(setPatient(patient));
         } catch (e) {
           setError(e.response?.data?.error || 'Unknown error');
           console.error(error);
