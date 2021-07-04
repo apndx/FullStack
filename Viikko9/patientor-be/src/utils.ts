@@ -1,4 +1,4 @@
-import { NewPatient, Gender, PatientFields } from './types';
+import { NewPatient, Gender, PatientFields, Entry } from './types';
 import { FinnishSSN } from 'finnish-ssn';
 
 const isString = (text: unknown): text is string => {
@@ -54,14 +54,27 @@ const parseSsn = (ssn: unknown): string => {
   return ssn;
 };
 
-const isArray = (entries: unknown): entries is Array<string> => {
-  return entries instanceof String;
+
+const isEntryType = (entries: unknown): entries is Entry[] => {
+  const entryTypes = ["Hospital", "HealthCheck", "OccupationalHealthcare"] as const;
+  if (!Array.isArray(entries)) {
+    console.log('not array')
+    return false;
+  }
+  const filtered = entries.filter(item => entryTypes.includes(item.type))
+  if (filtered.length < entries.length) {
+    console.log('too short')
+    return false;
+  }
+  return true;
 };
 
-const parseEntries = (entries: unknown): string[] => {
-  if (!entries || !isArray(entries)) {
-    return [];
+
+const parseEntries = (entries: unknown): Entry[] => {
+  if (!entries || !isEntryType(entries)) {
+    throw new Error('Incorrect entry');
   }
+  console.log('Entries ok')
   return entries;
 };
 

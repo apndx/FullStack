@@ -8,16 +8,20 @@ const router = express.Router();
 
 router.get('/', (_req: express.Request, res: express.Response) => {
   console.log('Patient list requested');
-  res.send(patientService.getNonSensitivePatients());
+  try {
+    res.send(patientService.getNonSensitivePatients());
+  } catch (e) {
+    res.status(400).send(e.message);
+  }
 });
 
 router.get('/:id', (req: express.Request, res: express.Response) => {
   console.log('Getting single patient info');
-  const patient = patientService.getPatient(req.params.id);
-  if (patient) {
+  try {
+    const patient = patientService.getPatient(req.params.id);
     res.send(patient);
-  } else {
-    res.sendStatus(404);
+  } catch (e) {
+    res.status(400).send(e.message);
   }
 
 });
