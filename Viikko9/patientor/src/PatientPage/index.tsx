@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { Container } from "semantic-ui-react";
-import { Patient } from "../types";
+import { Patient, Entry } from "../types";
 import { apiBaseUrl } from "../constants";
 import { useStateValue, setPatient } from "../state";
 import { useParams } from "react-router-dom";
@@ -40,6 +40,20 @@ const PatientPage = () => {
           <h2> {currentPatient.name} <i className={defineGenderIcon(currentPatient.gender)}></i> </h2>
           <p> ssn: {currentPatient.ssn}</p>
           <p> occupation: {currentPatient.occupation}</p>
+          {currentPatient.entries.length > 0 && <b>entries</b>}
+          {currentPatient.entries.map((entry: Entry) =>
+            <div key={entry.id}>
+              {entry.date} {entry.description}
+              {entry.diagnosisCodes &&
+                <ol>
+                  {entry.diagnosisCodes.map(code =>
+                    <li key={code}>
+                      {code}
+                    </li>)}
+                </ol>
+              }
+            </div>
+          )}
         </Container>
       }
     </div>
