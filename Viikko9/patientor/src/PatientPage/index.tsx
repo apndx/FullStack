@@ -39,8 +39,8 @@ const PatientPage = () => {
       {currentPatient &&
         <Container textAlign="left">
           <h2> {currentPatient.name} <i className={defineGenderIcon(currentPatient.gender)}></i> </h2>
-          <p> ssn: {currentPatient.ssn}</p>
-          <p> occupation: {currentPatient.occupation}</p>
+          <b>Ssn: </b>{currentPatient.ssn} <br></br>
+          <b>Occupation: </b> {currentPatient.occupation}
           {currentPatient.entries.length > 0 && <EntryList entries={currentPatient.entries}/>}
         </Container>
       }

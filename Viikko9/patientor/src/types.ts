@@ -53,14 +53,14 @@ export type Entry =
   | OccupationalHealthcareEntry
   | HealthCheckEntry;
 
-  interface HealthCheckEntry extends BaseEntry {
-    type: "HealthCheck";
-    healthCheckRating: HealthCheckRating;
-  }
+export interface HealthCheckEntry extends BaseEntry {
+  type: "HealthCheck";
+  healthCheckRating: HealthCheckRating;
+}
 
-  export enum HealthCheckRating {
-    "Healthy" = 0,
-    "LowRisk" = 1,
-    "HighRisk" = 2,
-    "CriticalRisk" = 3
-  }
+export enum HealthCheckRating {
+  "Healthy" = 0,
+  "LowRisk" = 1,
+  "HighRisk" = 2,
+  "CriticalRisk" = 3
+}
