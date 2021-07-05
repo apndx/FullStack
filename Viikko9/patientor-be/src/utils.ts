@@ -74,7 +74,6 @@ const parseEntries = (entries: unknown): Entry[] => {
   if (!entries || !isEntryType(entries)) {
     throw new Error('Incorrect entry');
   }
-  console.log('Entries ok')
   return entries;
 };
 

@@ -11,7 +11,7 @@ app.use(cors());
 const PORT = 3001;
 
 app.get('/api/ping', (_req: express.Request, res:  express.Response) => {
-  console.log('someone pinged here');
+  console.log('Someone pinged here');
   res.send('pong');
 });
 
