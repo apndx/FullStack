@@ -1,8 +1,8 @@
 import React from "react";
 import { Container } from "semantic-ui-react";
 import { OccupationalHealthcareEntry } from "../types";
-import HealthRatingBar from "../components/HealthRatingBar";
-import { useStateValue } from "../state";
+import HealthRatingBar from "./HealthRatingBar";
+import DiagnosisList from "./DiagnosisList";
 import 'semantic-ui-css/semantic.min.css';
 
 type OccupationalHealthcareProps = {
@@ -10,7 +10,6 @@ type OccupationalHealthcareProps = {
 };
 
 const OccupationalHealthcare = (props: OccupationalHealthcareProps) => {
-  const [{ diagnoses }] = useStateValue();
   return (
     <Container textAlign="left">
       <div>
@@ -22,16 +21,7 @@ const OccupationalHealthcare = (props: OccupationalHealthcareProps) => {
           <div>
             <b>Sickleave:</b>
             <p>Start: {props.entry.sickLeave.startDate} End: {props.entry.sickLeave.endDate} </p></div>}
-
-        {props.entry.diagnosisCodes &&
-          <ul>
-            <b>Diagnoses:</b>
-            {props.entry.diagnosisCodes.map(code =>
-              <li key={code}>
-                {code} {diagnoses[code] ? diagnoses[code].name : ""}
-              </li>)}
-          </ul>
-        }
+        {props.entry.diagnosisCodes && <DiagnosisList diagnosisCodes={props.entry.diagnosisCodes} />}
         <HealthRatingBar showText={false} rating={1} />
       </div>
     </Container>

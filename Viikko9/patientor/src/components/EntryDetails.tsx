@@ -2,7 +2,7 @@ import React from "react";
 import { Entry } from "../types";
 import Hospital from "./Hospital";
 import OccupationalHealthcare from "./OccupationalHealthcare";
-import HealthCheck from "./HealthCheck";
+import HealthCheck from "../components/HealthCheck";
 import { assertNever } from "../utils";
 
 type EntryDetailProps = {

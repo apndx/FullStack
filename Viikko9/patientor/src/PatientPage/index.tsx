@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import { Container } from "semantic-ui-react";
 import { Patient } from "../types";
-import EntryList from "./EntryList";
+import EntryList from "../components/EntryList";
 import { apiBaseUrl } from "../constants";
 import { useStateValue, setPatient } from "../state";
 import { useParams } from "react-router-dom";
