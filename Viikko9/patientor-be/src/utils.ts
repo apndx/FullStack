@@ -1,5 +1,14 @@
-import { NewPatient, Gender, PatientFields, Entry } from './types';
+import {
+  NewPatient,
+  Gender,
+  PatientFields,
+  Entry,
+  HospitalEntry,
+  OccupationalHealthcareEntry,
+  HealthCheckEntry
+} from './types';
 import { FinnishSSN } from 'finnish-ssn';
+import { v1 as uuid } from 'uuid';
 
 const isString = (text: unknown): text is string => {
   return typeof text === 'string' || text instanceof String;
@@ -90,4 +99,56 @@ export const toNewPatient = ({ name, dateOfBirth, ssn, gender, occupation, entri
   };
 
   return newPatient;
+};
+
+
+
+export const toNewEntry = (entry: Entry): Entry => {
+  switch (entry.type) {
+    case "Hospital":
+      const hospitalEntry: HospitalEntry = {
+        type: entry.type,
+        id: uuid(),
+        description: entry.description,
+        date: entry.date,
+        specialist: entry.specialist,
+        ...(entry.diagnosisCodes && { diagnosisCodes: entry.diagnosisCodes }),
+        discharge: entry.discharge
+      }
+      return hospitalEntry;
+    case "OccupationalHealthcare":
+      const occupationalEntry: OccupationalHealthcareEntry = {
+        type: entry.type,
+        id: uuid(),
+        description: entry.description,
+        date: entry.date,
+        specialist: entry.specialist,
+        employerName: entry.employerName,
+        ...(entry.diagnosisCodes && { diagnosisCodes: entry.diagnosisCodes }),
+        ...(entry.sickLeave && { sickLeave: entry.sickLeave }),
+      }
+      return occupationalEntry;
+    case "HealthCheck":
+      const healthCheckEntry: HealthCheckEntry = {
+        type: entry.type,
+        id: uuid(),
+        description: entry.description,
+        date: entry.date,
+        specialist: entry.specialist,
+        healthCheckRating: entry.healthCheckRating,
+        ...(entry.diagnosisCodes && { diagnosisCodes: entry.diagnosisCodes })
+      }
+      return healthCheckEntry;
+    default:
+      return assertNever(entry);
+  }
+};
+
+/**
+ * Helper function for exhaustive type checking
+ */
+export const assertNever = (value: never): never => {
+  throw new Error(
+    `Unhandled discriminated union member: ${JSON.stringify(value)}`
+  );
 };

@@ -1,9 +1,9 @@
 import patientData from '../../data/patients';
-import { Patient, PublicPatient, NewPatient } from '../types';
+import { Patient, PublicPatient, NewPatient, Entry } from '../types';
 import { toNewPatient } from '../utils';
 import { v1 as uuid } from 'uuid';
 
-const patients: Patient[] = patientData.map(obj => {
+var patients: Patient[] = patientData.map(obj => {
   const object = toNewPatient(obj) as Patient;
   object.id = obj.id;
   return object;
@@ -19,9 +19,25 @@ export const getNonSensitivePatients = (): PublicPatient[] => {
   }));
 };
 
-export const getPatient = (id: string): PublicPatient | undefined => {
+export const getPatient = (id: string): Patient | undefined => {
   const patient = patients.find(d => d.id === id);
   return patient;
+};
+
+export const updatePatients = (updatedPatient: Patient) => {
+  patients = patients.map(p => p.id !== updatedPatient.id ? p : updatedPatient)
+};
+
+export const updatePatient = (oldPatient: Patient, entry: Entry): Patient => {
+  const entries = {
+    ...oldPatient.entries,
+    entry
+  }
+  const updatedPatient = {
+    ...oldPatient,
+    entries: entries
+  }
+  return updatedPatient;
 };
 
 export const addPatient = (newPatient: NewPatient) => {
@@ -39,5 +55,7 @@ export const addPatient = (newPatient: NewPatient) => {
 export default {
   getNonSensitivePatients,
   addPatient,
-  getPatient
+  getPatient,
+  updatePatient,
+  updatePatients
 };
