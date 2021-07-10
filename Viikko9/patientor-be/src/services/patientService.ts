@@ -29,10 +29,8 @@ export const updatePatients = (updatedPatient: Patient) => {
 };
 
 export const updatePatient = (oldPatient: Patient, entry: Entry): Patient => {
-  const entries = {
-    ...oldPatient.entries,
-    entry
-  }
+  const entries = oldPatient.entries.concat(entry)
+
   const updatedPatient = {
     ...oldPatient,
     entries: entries
