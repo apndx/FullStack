@@ -27,7 +27,7 @@ const PatientPage = () => {
 
   const submitNewEntry = async (values: EntryFormValues) => {
     try {
-      const { data: updatedPatient} = await axios.post<Patient>(
+      const { data: updatedPatient } = await axios.post<Patient>(
         `${apiBaseUrl}/patients/${id}/entries`,
         values
       );
@@ -61,10 +61,12 @@ const PatientPage = () => {
   return (
     <div className="App">
       {currentPatient &&
-        <Container textAlign="left">
-          <h2> {currentPatient.name} <i className={defineGenderIcon(currentPatient.gender)}></i> </h2>
-          <b>Ssn: </b>{currentPatient.ssn} <br></br>
-          <b>Occupation: </b> {currentPatient.occupation}
+        <div>
+          <Container textAlign="left">
+            <h2> {currentPatient.name} <i className={defineGenderIcon(currentPatient.gender)}></i> </h2>
+            <b>Ssn: </b>{currentPatient.ssn} <br></br>
+            <b>Occupation: </b> {currentPatient.occupation}
+          </Container>
           {currentPatient.entries.length > 0 && <EntryList entries={currentPatient.entries} />}
           <AddEntryModal
             modalOpen={modalOpen}
@@ -73,7 +75,7 @@ const PatientPage = () => {
             onClose={closeModal}
           />
           <Button onClick={() => openModal()}>Add New Entry</Button>
-        </Container>
+        </div>
       }
     </div>
   );
