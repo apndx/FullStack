@@ -1,7 +1,6 @@
 import React from "react";
 import { Container } from "semantic-ui-react";
 import { OccupationalHealthcareEntry } from "../types";
-import HealthRatingBar from "./HealthRatingBar";
 import DiagnosisList from "./DiagnosisList";
 import 'semantic-ui-css/semantic.min.css';
 
@@ -22,7 +21,6 @@ const OccupationalHealthcare = (props: OccupationalHealthcareProps) => {
             <b>Sickleave:</b>
             <p>Start: {props.entry.sickLeave.startDate} End: {props.entry.sickLeave.endDate} </p></div>}
         {props.entry.diagnosisCodes && <DiagnosisList diagnosisCodes={props.entry.diagnosisCodes} />}
-        <HealthRatingBar showText={false} rating={1} />
       </div>
     </Container>
   );

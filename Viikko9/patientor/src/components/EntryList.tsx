@@ -1,5 +1,5 @@
 import React from "react";
-import { Table } from "semantic-ui-react";
+import { Table, Container } from "semantic-ui-react";
 import { Entry } from "../types";
 import { useStateValue } from "../state";
 import EntryDetails from "./EntryDetails";
@@ -12,7 +12,9 @@ const EntryList = (props: EntryListProps) => {
   const [{ diagnoses }] = useStateValue();
   return (
     <div>
-      {props.entries.length > 0 && diagnoses && <h3>Entries</h3>}
+      <Container textAlign="center">
+        {props.entries.length > 0 && diagnoses && <h3>Entries</h3>}
+      </Container>
       <Table celled>
         <Table.Body>
           {props.entries.map((entry: Entry) => (
