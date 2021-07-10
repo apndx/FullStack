@@ -80,7 +80,10 @@ const isEntryType = (entries: unknown): entries is Entry[] => {
 
 
 const parseEntries = (entries: unknown): Entry[] => {
-  if (!entries || !isEntryType(entries)) {
+  if (!entries) {
+    return [];
+  }
+  else if (!isEntryType(entries)) {
     throw new Error('Incorrect entry');
   }
   return entries;

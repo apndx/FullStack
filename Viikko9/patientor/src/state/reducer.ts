@@ -67,7 +67,8 @@ export const reducer = (state: State, action: Action): State => {
         patients: {
           ...state.patients,
           [action.payload.id]: action.payload
-        }
+        },
+        currentPatient: action.payload
       };
     default:
       return state;

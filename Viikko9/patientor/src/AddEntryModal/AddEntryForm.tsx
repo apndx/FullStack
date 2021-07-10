@@ -90,12 +90,6 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
               name="discharge.date"
               component={TextField}
             />
-            <Field
-              label="Specialist"
-              placeholder="Specialist"
-              name="specialist"
-              component={TextField}
-            />
             <DiagnosisSelection
               setFieldValue={setFieldValue}
               setFieldTouched={setFieldTouched}
