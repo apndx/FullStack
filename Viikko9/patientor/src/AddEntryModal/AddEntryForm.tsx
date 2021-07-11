@@ -2,7 +2,7 @@ import React from "react";
 import { Grid, Button } from "semantic-ui-react";
 import { Field, Formik, Form } from "formik";
 import { useStateValue } from "../state";
-import { TextField, EntrySelectField, EntryOption, DiagnosisSelection } from "../components/FormField";
+import { TextField, EntrySelectField, EntryOption, DiagnosisSelection, NumberField } from "../components/FormField";
 import { AllEntryValues, EntryType, HealthCheckRating } from "../types";
 import { isValidDate } from "../utils";
 
@@ -18,9 +18,9 @@ interface Props {
 }
 
 const entryOptions: EntryOption[] = [
+  { value: EntryType.HealthCheckEntry, label: "Health Check" },
   { value: EntryType.HospitalEntry, label: "Hospital" },
-  { value: EntryType.OccupationalHealthcareEntry, label: "Occupational" },
-  //{ value: EntryType.HealthCheckEntry, label: "Health Check" }
+  { value: EntryType.OccupationalHealthcareEntry, label: "Occupational" }
 ];
 
 export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
@@ -29,7 +29,7 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
   return (
     <Formik
       initialValues={{
-        type: "Hospital",
+        type: "HealthCheck",
         description: "",
         date: "",
         specialist: "",
@@ -76,6 +76,11 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
           !isValidDate(values.sickLeave.endDate)) {
           errors.discharge = dateError;
         }
+        // if (values.type === EntryType.HealthCheckEntry &&
+        //   values.sickLeave.endDate !== "" &&
+        //   !isValidDate(values.sickLeave.endDate)) {
+        //   errors.discharge = dateError;
+        // }
         return errors;
       }}
     >
@@ -134,6 +139,13 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
               placeholder="YYYY-MM-DD"
               name="discharge.date"
               component={TextField}
+            />}
+            {values.type === EntryType.HealthCheckEntry && <Field
+              label="Health Check Rating"
+              name="healthCheckRating"
+              component={NumberField}
+              min={0}
+              max={3}
             />}
             <DiagnosisSelection
               setFieldValue={setFieldValue}
