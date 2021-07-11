@@ -3,13 +3,14 @@ import { Grid, Button } from "semantic-ui-react";
 import { Field, Formik, Form } from "formik";
 import { useStateValue } from "../state";
 import { TextField, EntrySelectField, EntryOption, DiagnosisSelection } from "../components/FormField";
-import { Entry, EntryType } from "../types";
+import { AllEntryValues, EntryType, HealthCheckRating } from "../types";
+import { isValidDate } from "../utils";
 
 /*
  * use type Entry, but omit id,
  * because it is irrelevant for new entry object.
  */
-export type EntryFormValues = Omit<Entry, "id">;
+export type EntryFormValues = Omit<AllEntryValues, "id">;
 
 interface Props {
   onSubmit: (values: EntryFormValues) => void;
@@ -24,6 +25,7 @@ const entryOptions: EntryOption[] = [
 
 export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
   const [{ diagnoses }] = useStateValue();
+
   return (
     <Formik
       initialValues={{
@@ -31,11 +33,16 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
         description: "",
         date: "",
         specialist: "",
-        diagnosisCodes: []
+        diagnosisCodes: [],
+        employerName: "",
+        sickLeave: { startDate: "", endDate: "" },
+        discharge: { date: "", criteria: "" },
+        healthCheckRating: HealthCheckRating.LowRisk,
       }}
       onSubmit={onSubmit}
       validate={values => {
         const requiredError = "Field is required";
+        const dateError = "Correct format for date is 2021-12-31";
         const errors: { [field: string]: string } = {};
         if (!values.type) {
           errors.type = requiredError;
@@ -43,21 +50,27 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
         if (!values.description) {
           errors.description = requiredError;
         }
-        if (!values.date) {
-          errors.date = requiredError;
+        if (!values.date || !isValidDate(values.date)) {
+          errors.date = dateError;
         }
         if (!values.specialist) {
           errors.specialist = requiredError;
         }
+        if (values.type === EntryType.HospitalEntry && values.discharge.criteria === "") {
+          errors.discharge = requiredError;
+        }
+        if (values.type === EntryType.HospitalEntry && !isValidDate(values.discharge.date)) {
+          errors.discharge = dateError;
+        }
         return errors;
       }}
     >
-      {({ isValid, dirty, setFieldValue, setFieldTouched }) => {
+      {({ values, isValid, dirty, setFieldValue, setFieldTouched }) => {
         return (
           <Form className="form ui">
             <EntrySelectField
               label="Entry Type"
-              name="entryType"
+              name="type"
               options={entryOptions}
             />
             <Field
@@ -78,18 +91,18 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
               name="specialist"
               component={TextField}
             />
-            <Field
+            {values.type === EntryType.HospitalEntry && <Field
               label="Discharge criteria"
               placeholder="Discharge criteria"
               name="discharge.criteria"
               component={TextField}
-            />
-            <Field
+            />}
+            {values.type === EntryType.HospitalEntry && <Field
               label="Discharge date"
               placeholder="YYYY-MM-DD"
               name="discharge.date"
               component={TextField}
-            />
+            />}
             <DiagnosisSelection
               setFieldValue={setFieldValue}
               setFieldTouched={setFieldTouched}

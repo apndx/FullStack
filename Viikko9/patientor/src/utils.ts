@@ -19,3 +19,9 @@ export const assertNever = (value: never): never => {
     `Unhandled discriminated union member: ${JSON.stringify(value)}`
   );
 };
+
+export function isValidDate(dateString: string) {
+  const regEx = /^\d{4}-\d{2}-\d{2}$/;
+  return regEx.exec(dateString) != null;
+  //return dateString.match(regEx) != null;
+}

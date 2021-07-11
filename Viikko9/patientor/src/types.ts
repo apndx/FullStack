@@ -69,3 +69,11 @@ export enum HealthCheckRating {
   "HighRisk" = 2,
   "CriticalRisk" = 3
 }
+
+export interface AllEntryValues extends BaseEntry {
+  healthCheckRating: HealthCheckRating;
+  employerName: string;
+  sickLeave?: SickLeave;
+  discharge: Discharge;
+  type: string;
+}
