@@ -19,7 +19,7 @@ interface Props {
 
 const entryOptions: EntryOption[] = [
   { value: EntryType.HospitalEntry, label: "Hospital" },
-  // { value: EntryType.OccupationalHealthcareEntry, label: "Occupational" },
+  { value: EntryType.OccupationalHealthcareEntry, label: "Occupational" },
   //{ value: EntryType.HealthCheckEntry, label: "Health Check" }
 ];
 
@@ -42,8 +42,9 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
       onSubmit={onSubmit}
       validate={values => {
         const requiredError = "Field is required";
-        const dateError = "Correct format for date is 2021-12-31";
+        const dateError = "Correct format for date is YYYY-MM-DD";
         const errors: { [field: string]: string } = {};
+
         if (!values.type) {
           errors.type = requiredError;
         }
@@ -56,10 +57,23 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
         if (!values.specialist) {
           errors.specialist = requiredError;
         }
-        if (values.type === EntryType.HospitalEntry && values.discharge.criteria === "") {
+        if (values.type === EntryType.HospitalEntry && !values.discharge.criteria) {
           errors.discharge = requiredError;
         }
         if (values.type === EntryType.HospitalEntry && !isValidDate(values.discharge.date)) {
+          errors.discharge = dateError;
+        }
+        if (values.type === EntryType.OccupationalHealthcareEntry && !values.employerName) {
+          errors.employerName = requiredError;
+        }
+        if (values.type === EntryType.OccupationalHealthcareEntry &&
+          values.sickLeave.startDate !== "" &&
+          !isValidDate(values.sickLeave.startDate)) {
+          errors.discharge = dateError;
+        }
+        if (values.type === EntryType.OccupationalHealthcareEntry &&
+          values.sickLeave.endDate !== "" &&
+          !isValidDate(values.sickLeave.endDate)) {
           errors.discharge = dateError;
         }
         return errors;
@@ -91,6 +105,24 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
               name="specialist"
               component={TextField}
             />
+            {values.type === EntryType.OccupationalHealthcareEntry && <Field
+              label="Employer"
+              placeholder="Employer"
+              name="employerName"
+              component={TextField}
+            />}
+            {values.type === EntryType.OccupationalHealthcareEntry && <Field
+              label="Sick leave start date"
+              placeholder="YYYY-MM-DD"
+              name="sickLeave.startDate"
+              component={TextField}
+            />}
+            {values.type === EntryType.OccupationalHealthcareEntry && <Field
+              label="Sick leave end date"
+              placeholder="YYYY-MM-DD"
+              name="sickLeave.endDate"
+              component={TextField}
+            />}
             {values.type === EntryType.HospitalEntry && <Field
               label="Discharge criteria"
               placeholder="Discharge criteria"

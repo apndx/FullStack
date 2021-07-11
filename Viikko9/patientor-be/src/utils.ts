@@ -128,7 +128,7 @@ export const toNewEntry = (entry: Entry): Entry => {
         specialist: entry.specialist,
         employerName: entry.employerName,
         ...(entry.diagnosisCodes && { diagnosisCodes: entry.diagnosisCodes }),
-        ...(entry.sickLeave && { sickLeave: entry.sickLeave }),
+        ...(entry.sickLeave?.startDate !== '' && { sickLeave: entry.sickLeave }),
       }
       return occupationalEntry;
     case "HealthCheck":

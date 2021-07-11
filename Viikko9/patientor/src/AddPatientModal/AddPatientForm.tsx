@@ -4,6 +4,7 @@ import { Field, Formik, Form } from "formik";
 
 import { TextField, GenderSelectField, GenderOption } from "../components/FormField";
 import { Gender, Patient } from "../types";
+import { isValidDate } from "../utils";
 
 /*
  * use type Patient, but omit id and entries,
@@ -35,6 +36,7 @@ export const AddPatientForm = ({ onSubmit, onCancel } : Props ) => {
       onSubmit={onSubmit}
       validate={values => {
         const requiredError = "Field is required";
+        const dateError = "Correct format for date is YYYY-MM-DD";
         const errors: { [field: string]: string } = {};
         if (!values.name) {
           errors.name = requiredError;
@@ -44,6 +46,9 @@ export const AddPatientForm = ({ onSubmit, onCancel } : Props ) => {
         }
         if (!values.dateOfBirth) {
           errors.dateOfBirth = requiredError;
+        }
+        if (!isValidDate(values.dateOfBirth)) {
+          errors.dateOfBirth = dateError;
         }
         if (!values.occupation) {
           errors.occupation = requiredError;
